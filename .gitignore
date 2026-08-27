@@ -1,0 +1,7 @@
+﻿node_modules/
+__pycache__/
+*.pyc
+.venv/
+dist/
+backend/openexit_panel/var/
+.pytest_cache/
