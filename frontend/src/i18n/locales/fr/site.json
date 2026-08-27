@@ -1,0 +1,50 @@
+{
+  "status": {
+    "open": "OUVERT",
+    "closed": "FERMÉ",
+    "destroyed": "DÉTRUIT",
+    "seasonal": "SAISONNIER",
+    "unknown": "INCONNU"
+  },
+  "access": {
+    "legal": "ACCÈS : LÉGAL",
+    "tolerated": "ACCÈS : TOLÉRÉ",
+    "restricted-seasonal": "ACCÈS : RESTRICTION SAISONNIÈRE",
+    "illegal": "ACCÈS : ILLÉGAL",
+    "unknown": "ACCÈS : INCONNU"
+  },
+  "roles": {
+    "exit": "Exit",
+    "landing": "Atterrissage",
+    "parking": "Parking",
+    "gearup": "Préparation",
+    "trailhead": "Départ sentier"
+  },
+  "suitability": {
+    "slick": "slick",
+    "sliderOff": "slider off",
+    "sliderUp": "slider up",
+    "wingsuit": "wingsuit",
+    "tracksuit": "tracksuit",
+    "staticLine": "static line"
+  },
+  "measurements": {
+    "rockdrop": "Rockdrop",
+    "heightAgl": "Hauteur sol ({{reference}})",
+    "totalHeight": "Hauteur totale",
+    "distanceToTalus": "Distance au talus",
+    "flyableAltitude": "Altitude volable",
+    "minGlideRatio": "Finesse mini",
+    "exitDirection": "Direction d'exit",
+    "approach": "Approche",
+    "trueSuffix": "vrai",
+    "minSuffix": "min"
+  },
+  "panel": {
+    "suggestChange": "Proposer une correction",
+    "fullGuide": "Guide complet",
+    "contributedBy": "Contribué par",
+    "loading": "Chargement du site…",
+    "error": "Impossible de charger ce site."
+  }
+}

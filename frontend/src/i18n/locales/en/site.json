@@ -1,0 +1,50 @@
+{
+  "status": {
+    "open": "OPEN",
+    "closed": "CLOSED",
+    "destroyed": "DESTROYED",
+    "seasonal": "SEASONAL",
+    "unknown": "UNKNOWN"
+  },
+  "access": {
+    "legal": "ACCESS: LEGAL",
+    "tolerated": "ACCESS: TOLERATED",
+    "restricted-seasonal": "ACCESS: SEASONAL RESTRICTION",
+    "illegal": "ACCESS: ILLEGAL",
+    "unknown": "ACCESS: UNKNOWN"
+  },
+  "roles": {
+    "exit": "Exit",
+    "landing": "Landing",
+    "parking": "Parking",
+    "gearup": "Gear-up",
+    "trailhead": "Trailhead"
+  },
+  "suitability": {
+    "slick": "slick",
+    "sliderOff": "slider off",
+    "sliderUp": "slider up",
+    "wingsuit": "wingsuit",
+    "tracksuit": "tracksuit",
+    "staticLine": "static line"
+  },
+  "measurements": {
+    "rockdrop": "Rockdrop",
+    "heightAgl": "Height AGL ({{reference}})",
+    "totalHeight": "Total height",
+    "distanceToTalus": "Distance to talus",
+    "flyableAltitude": "Flyable altitude",
+    "minGlideRatio": "Min glide ratio",
+    "exitDirection": "Exit direction",
+    "approach": "Approach",
+    "trueSuffix": "true",
+    "minSuffix": "min"
+  },
+  "panel": {
+    "suggestChange": "Suggest a change",
+    "fullGuide": "Full guide",
+    "contributedBy": "Contributed by",
+    "loading": "Loading site…",
+    "error": "Could not load this site."
+  }
+}
