@@ -1,0 +1,97 @@
+{
+  "notice": {
+    "title": "Before you add a site",
+    "body": "Do not submit access-restricted or landowner-sensitive exits. A submission is permanent, even if rejected — the public commons holds openly-known sites only. When in doubt, ask a local first.",
+    "agree": "Understood — this site is openly known",
+    "moderated": "Everything you submit is reviewed by a human moderator before it publishes."
+  },
+  "pin": {
+    "title": "Where is the exit?",
+    "hint": "Tap the map to drop the pin, or use your GPS.",
+    "useGps": "Use my GPS",
+    "gpsFailed": "Could not get a GPS fix.",
+    "precision": "GPS ±{{m}} m",
+    "continue": "Continue"
+  },
+  "nearby": {
+    "title": "There is a site nearby",
+    "body": "Is your exit part of this existing site? Attaching it keeps every exit of one wall on one record.",
+    "attach": "Add my exit to this site",
+    "different": "No — it's a different site",
+    "tooClose": "A new site under {{m}} m from an existing one can't be published.",
+    "away": "{{m}} m away",
+    "features": "{{count}} feature(s)",
+    "pendingTag": "pending review"
+  },
+  "details": {
+    "title": "Site & exit details",
+    "siteName": "Site name",
+    "siteNameHint": "The object — the cliff, the bridge — not one exit",
+    "country": "Country (two-letter code)",
+    "objectType": "What kind of object?",
+    "objects": { "building": "Building", "antenna": "Antenna", "span": "Span", "earth": "Earth" },
+    "suitability": "What can be jumped here?",
+    "suitabilityHint": "tap all that apply",
+    "direction": "Exit direction (degrees true)",
+    "directionHint": "0–359, degrees TRUE — never a compass word",
+    "status": "Status",
+    "access": "Legal access",
+    "continue": "Continue"
+  },
+  "measurements": {
+    "title": "Measurements",
+    "hint": "Optional — but every value needs how and when it was measured.",
+    "rockdrop": "Rockdrop (m)",
+    "heightAgl": "Height above landing (m)",
+    "method": "Method",
+    "methods": { "laser": "laser", "gps": "gps", "map": "map", "estimate": "estimate" },
+    "measuredAt": "Measured (YYYY-MM)",
+    "approachTime": "Approach time (minutes)",
+    "skip": "Skip",
+    "continue": "Continue"
+  },
+  "landing": {
+    "title": "Landing zone",
+    "hint": "Tap the map to pin the landing. You can skip this, but a landing pin helps everyone — its absence is flagged to the moderators.",
+    "surface": "Surface",
+    "surfaces": { "grass": "grass", "talus": "talus", "water": "water", "road": "road", "forest": "forest", "other": "other" },
+    "skip": "Skip for now",
+    "continue": "Continue"
+  },
+  "notes": {
+    "title": "Notes",
+    "hint": "Anything a visiting jumper should know — access, hazards, local situation. Written in your language.",
+    "observations": "Observations",
+    "hazards": "Hazards",
+    "continue": "Continue"
+  },
+  "review": {
+    "title": "Review & submit",
+    "position": "Position",
+    "details": "Details",
+    "measurements": "Measurements",
+    "landing": "Landing",
+    "noLanding": "No landing pin — moderators will see this flagged",
+    "notes": "Notes",
+    "edit": "Edit",
+    "terms": "I certify that I have the right to contribute this material and that it is not copied from a third-party database without permission. I keep my rights in my contribution, and I grant the OpenExit association a worldwide, non-exclusive, irrevocable licence to publish it as part of the OpenExit database under ODbL 1.0 (contents under DbCL 1.0), or under another free and open licence approved by a two-thirds vote of active contributors.",
+    "termsVersion": "Contributor Terms · {{version}}",
+    "submit": "Submit for review",
+    "submitting": "Submitting…"
+  },
+  "result": {
+    "title": "Submitted for review",
+    "body": "A human moderator will review it before anything publishes. Track it under My submissions.",
+    "reportTitle": "Machine check",
+    "addPhotos": "Add photos (CC-BY-SA 4.0)",
+    "photoAdded": "{{count}} photo(s) attached",
+    "photoFailed": "Photo rejected: {{key}}",
+    "toSubmissions": "My submissions",
+    "errorTitle": "Submission was refused",
+    "tryAgain": "Back to the form"
+  },
+  "correction": {
+    "banner": "Suggesting a change to {{name}} — your edit is reviewed like any submission, and prior credit is never erased."
+  },
+  "back": "Back"
+}

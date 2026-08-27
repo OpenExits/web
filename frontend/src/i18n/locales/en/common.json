@@ -20,6 +20,30 @@
     "language": "Language"
   },
   "comingSoon": "Coming soon — this part of OpenExit is being built.",
+  "panelHome": {
+    "title": "Contribute",
+    "addExit": "Add an exit",
+    "mySubmissions": "My submissions",
+    "signOut": "Sign out"
+  },
+  "submissions": {
+    "title": "My submissions",
+    "empty": "Nothing yet — add your first exit from the map or the wizard.",
+    "status": {
+      "pending": "Pending review",
+      "changes_requested": "Changes requested",
+      "approved": "Approved",
+      "publishing": "Publishing…",
+      "publish_failed": "Publish issue — moderators on it",
+      "published": "Published",
+      "rejected": "Rejected",
+      "withdrawn": "Withdrawn"
+    },
+    "withdraw": "Withdraw",
+    "messages": "Messages",
+    "reply": "Write to the moderators…",
+    "send": "Send"
+  },
   "safety": {
     "title": "This is unverified reference information, not advice.",
     "body": "Conditions change — erosion, tree growth and seasonal snow can turn a once-jumpable exit lethal within months. Every measurement carries its date; check how old it is, and verify everything yourself."

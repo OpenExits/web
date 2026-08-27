@@ -2,8 +2,10 @@ import { useEffect, useRef } from "react";
 import {
   LngLatBounds,
   Map as MlMap,
+  Marker,
   NavigationControl,
   type MapLayerMouseEvent,
+  type MapMouseEvent,
 } from "maplibre-gl";
 import "maplibre-gl/dist/maplibre-gl.css";
 import { SITES_GEOJSON_URL } from "../../lib/api";
@@ -16,22 +18,35 @@ const DATA_ATTRIBUTION = "© OpenExit contributors (ODbL)";
 
 export interface MapViewProps {
   onSiteClick?: (sitePath: string) => void;
+  /** pick mode: clicking the map drops/moves a pin and reports it */
+  onPick?: (lat: number, lon: number) => void;
+  marker?: { lat: number; lon: number } | null;
+  center?: { lat: number; lon: number; zoom?: number };
 }
 
-export default function MapView({ onSiteClick }: MapViewProps) {
+export default function MapView({ onSiteClick, onPick, marker, center }: MapViewProps) {
   const containerRef = useRef<HTMLDivElement>(null);
   const mapRef = useRef<MlMap | null>(null);
+  const markerRef = useRef<Marker | null>(null);
   const clickRef = useRef(onSiteClick);
   clickRef.current = onSiteClick;
+  const pickRef = useRef(onPick);
+  pickRef.current = onPick;
 
   useEffect(() => {
     if (!containerRef.current) return;
     const map = new MlMap({
       container: containerRef.current,
       style: STYLE_URL,
-      center: [6.5, 45.9], // synthetic demo region; fitBounds takes over once data loads
-      zoom: 8,
+      center: center ? [center.lon, center.lat] : [6.5, 45.9],
+      zoom: center?.zoom ?? 8,
       attributionControl: { customAttribution: DATA_ATTRIBUTION },
+    });
+    map.on("click", (e: MapMouseEvent) => {
+      pickRef.current?.(
+        Number(e.lngLat.lat.toFixed(6)),
+        Number(e.lngLat.lng.toFixed(6)),
+      );
     });
     mapRef.current = map;
     map.addControl(new NavigationControl({ showCompass: false }), "top-right");
@@ -75,6 +90,7 @@ export default function MapView({ onSiteClick }: MapViewProps) {
       map.on("mouseleave", "sites-circles", () => {
         map.getCanvas().style.cursor = "";
       });
+      if (onPick) return; // pick mode keeps the user's framing
       // frame the data once it arrives
       fetch(SITES_GEOJSON_URL)
         .then((r) => (r.ok ? r.json() : null))
@@ -93,7 +109,25 @@ export default function MapView({ onSiteClick }: MapViewProps) {
       map.remove();
       mapRef.current = null;
     };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
+
+  useEffect(() => {
+    const map = mapRef.current;
+    if (!map) return;
+    if (marker) {
+      if (!markerRef.current) {
+        markerRef.current = new Marker({ color: "#e84e10" })
+          .setLngLat([marker.lon, marker.lat])
+          .addTo(map);
+      } else {
+        markerRef.current.setLngLat([marker.lon, marker.lat]);
+      }
+    } else if (markerRef.current) {
+      markerRef.current.remove();
+      markerRef.current = null;
+    }
+  }, [marker]);
 
   return <div ref={containerRef} className="h-full w-full" />;
 }

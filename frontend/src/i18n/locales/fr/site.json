@@ -46,5 +46,32 @@
     "contributedBy": "Contribué par",
     "loading": "Chargement du site…",
     "error": "Impossible de charger ce site."
+  },
+  "community": {
+    "lastConfirmed": "Confirmé pour la dernière fois le {{date}}",
+    "neverConfirmed": "Pas encore confirmé sur place",
+    "count12mo": "{{count}}× ces 12 derniers mois, sur place",
+    "confirm": "Vérifié sur place",
+    "confirmed": "Merci — enregistré pour aujourd'hui",
+    "report": "Signaler un problème",
+    "reportTitle": "Qu'est-ce qui ne va pas ?",
+    "reportBody": "Détails (optionnel)",
+    "reportSend": "Envoyer aux modérateurs",
+    "reportSent": "Signalement envoyé — les modérateurs vont regarder.",
+    "categories": {
+      "position": "La position est fausse",
+      "measurement": "Une mesure est fausse ou obsolète",
+      "access_status": "L'accès ou le statut a changé",
+      "landing": "L'info d'atterrissage est fausse",
+      "sensitive": "Ce site ne devrait pas être listé",
+      "other": "Autre chose"
+    },
+    "discussion": "Discussion",
+    "messages": "{{count}} message(s)",
+    "composerHint": "Discussion ouverte sur ce site. Une info concrète ? Utilisez « Proposer une correction » pour qu'elle entre dans la base.",
+    "composerWarning": "Public et permanent — ne publiez jamais de beta d'accès pour un site sensible.",
+    "post": "Publier",
+    "delete": "Supprimer",
+    "signInToPost": "Connectez-vous pour participer"
   }
 }

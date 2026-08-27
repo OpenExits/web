@@ -1,0 +1,97 @@
+{
+  "notice": {
+    "title": "Avant d'ajouter un site",
+    "body": "Ne soumettez pas d'exits à l'accès restreint ou sensibles vis-à-vis d'un propriétaire. Une soumission est permanente, même refusée — le commun public ne contient que des sites ouvertement connus. Dans le doute, demandez d'abord à un local.",
+    "agree": "Compris — ce site est ouvertement connu",
+    "moderated": "Tout ce que vous soumettez est relu par un modérateur humain avant publication."
+  },
+  "pin": {
+    "title": "Où est l'exit ?",
+    "hint": "Touchez la carte pour poser le point, ou utilisez votre GPS.",
+    "useGps": "Utiliser mon GPS",
+    "gpsFailed": "Impossible d'obtenir une position GPS.",
+    "precision": "GPS ±{{m}} m",
+    "continue": "Continuer"
+  },
+  "nearby": {
+    "title": "Un site existe à proximité",
+    "body": "Votre exit fait-il partie de ce site ? L'y rattacher garde tous les exits d'une même paroi sur une seule fiche.",
+    "attach": "Ajouter mon exit à ce site",
+    "different": "Non — c'est un site différent",
+    "tooClose": "Un nouveau site à moins de {{m}} m d'un site existant ne peut pas être publié.",
+    "away": "à {{m}} m",
+    "features": "{{count}} élément(s)",
+    "pendingTag": "en attente de relecture"
+  },
+  "details": {
+    "title": "Détails du site et de l'exit",
+    "siteName": "Nom du site",
+    "siteNameHint": "L'objet — la falaise, le pont — pas un exit isolé",
+    "country": "Pays (code à deux lettres)",
+    "objectType": "Quel type d'objet ?",
+    "objects": { "building": "Bâtiment", "antenna": "Antenne", "span": "Pont", "earth": "Falaise" },
+    "suitability": "Que peut-on sauter ici ?",
+    "suitabilityHint": "cochez tout ce qui s'applique",
+    "direction": "Direction d'exit (degrés vrais)",
+    "directionHint": "0–359, degrés VRAIS — jamais un point cardinal",
+    "status": "Statut",
+    "access": "Accès légal",
+    "continue": "Continuer"
+  },
+  "measurements": {
+    "title": "Mesures",
+    "hint": "Optionnel — mais chaque valeur exige comment et quand elle a été mesurée.",
+    "rockdrop": "Rockdrop (m)",
+    "heightAgl": "Hauteur au-dessus de l'atterrissage (m)",
+    "method": "Méthode",
+    "methods": { "laser": "laser", "gps": "gps", "map": "carte", "estimate": "estimation" },
+    "measuredAt": "Mesuré (AAAA-MM)",
+    "approachTime": "Temps de marche (minutes)",
+    "skip": "Passer",
+    "continue": "Continuer"
+  },
+  "landing": {
+    "title": "Zone d'atterrissage",
+    "hint": "Touchez la carte pour pointer l'atterrissage. Vous pouvez passer, mais un point d'atterrissage aide tout le monde — son absence est signalée aux modérateurs.",
+    "surface": "Surface",
+    "surfaces": { "grass": "herbe", "talus": "talus", "water": "eau", "road": "route", "forest": "forêt", "other": "autre" },
+    "skip": "Passer pour l'instant",
+    "continue": "Continuer"
+  },
+  "notes": {
+    "title": "Notes",
+    "hint": "Tout ce qu'un pratiquant de passage devrait savoir — accès, dangers, situation locale. Dans votre langue.",
+    "observations": "Observations",
+    "hazards": "Dangers",
+    "continue": "Continuer"
+  },
+  "review": {
+    "title": "Relire et soumettre",
+    "position": "Position",
+    "details": "Détails",
+    "measurements": "Mesures",
+    "landing": "Atterrissage",
+    "noLanding": "Pas de point d'atterrissage — les modérateurs le verront signalé",
+    "notes": "Notes",
+    "edit": "Modifier",
+    "terms": "Je certifie avoir le droit de contribuer ce contenu et qu'il n'est pas copié d'une base de données tierce sans autorisation. Je conserve mes droits sur ma contribution, et j'accorde à l'association OpenExit une licence mondiale, non exclusive et irrévocable pour la publier dans la base OpenExit sous ODbL 1.0 (contenus sous DbCL 1.0), ou sous une autre licence libre et ouverte approuvée par un vote aux deux tiers des contributeurs actifs.",
+    "termsVersion": "Conditions de contribution · {{version}}",
+    "submit": "Soumettre pour relecture",
+    "submitting": "Envoi…"
+  },
+  "result": {
+    "title": "Soumis pour relecture",
+    "body": "Un modérateur humain relira tout avant publication. Suivez l'avancement dans Mes soumissions.",
+    "reportTitle": "Vérification machine",
+    "addPhotos": "Ajouter des photos (CC-BY-SA 4.0)",
+    "photoAdded": "{{count}} photo(s) jointe(s)",
+    "photoFailed": "Photo refusée : {{key}}",
+    "toSubmissions": "Mes soumissions",
+    "errorTitle": "Soumission refusée",
+    "tryAgain": "Retour au formulaire"
+  },
+  "correction": {
+    "banner": "Proposition de modification de {{name}} — votre correction est relue comme toute soumission, et le crédit des contributions passées n'est jamais effacé."
+  },
+  "back": "Retour"
+}

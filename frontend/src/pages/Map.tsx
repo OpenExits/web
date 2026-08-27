@@ -54,7 +54,7 @@ export default function MapPage() {
           {panel.kind === "error" && (
             <p className="p-6 text-sm text-warntext">{t("panel.error")}</p>
           )}
-          {panel.kind === "loaded" && <SiteDetail site={panel.site} />}
+          {panel.kind === "loaded" && <SiteDetail site={panel.site} sitePath={panel.path} />}
         </aside>
       )}
     </div>

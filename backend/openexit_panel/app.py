@@ -17,9 +17,15 @@ def create_app(config_object=Config, *, create_tables: bool = False) -> Flask:
         Base.metadata.create_all(engine)
 
     from .api.auth_routes import bp as auth_bp
+    from .api.community_routes import bp as community_bp
     from .api.public_routes import bp as public_bp
+    from .api.submission_routes import bp as submissions_bp
+    from .api.validate_routes import bp as validate_bp
     app.register_blueprint(auth_bp)
     app.register_blueprint(public_bp)
+    app.register_blueprint(validate_bp)
+    app.register_blueprint(submissions_bp)
+    app.register_blueprint(community_bp)
 
     @app.get("/api/v1/health")
     def health():

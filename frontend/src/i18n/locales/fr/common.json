@@ -20,6 +20,30 @@
     "language": "Langue"
   },
   "comingSoon": "Bientôt disponible — cette partie d'OpenExit est en construction.",
+  "panelHome": {
+    "title": "Contribuer",
+    "addExit": "Ajouter un exit",
+    "mySubmissions": "Mes soumissions",
+    "signOut": "Déconnexion"
+  },
+  "submissions": {
+    "title": "Mes soumissions",
+    "empty": "Rien pour l'instant — ajoutez votre premier exit depuis la carte ou l'assistant.",
+    "status": {
+      "pending": "En attente de relecture",
+      "changes_requested": "Modifications demandées",
+      "approved": "Approuvée",
+      "publishing": "Publication…",
+      "publish_failed": "Souci de publication — les modérateurs s'en occupent",
+      "published": "Publiée",
+      "rejected": "Refusée",
+      "withdrawn": "Retirée"
+    },
+    "withdraw": "Retirer",
+    "messages": "Messages",
+    "reply": "Écrire aux modérateurs…",
+    "send": "Envoyer"
+  },
   "safety": {
     "title": "Ceci est une information de référence non vérifiée, pas un conseil.",
     "body": "Les conditions changent — l'érosion, la végétation et la neige peuvent rendre mortel en quelques mois un exit autrefois sautable. Chaque mesure porte sa date : vérifiez son ancienneté, et vérifiez tout par vous-même."

@@ -1,9 +1,16 @@
 from __future__ import annotations
 
+import sys
+from pathlib import Path
+
 import pytest
 
 from openexit_panel.app import create_app
 from openexit_panel.config import Config
+
+COMMONS_SCRIPTS = Path(__file__).resolve().parents[3] / "commons" / "scripts"
+if str(COMMONS_SCRIPTS) not in sys.path:
+    sys.path.insert(0, str(COMMONS_SCRIPTS))
 
 
 class TestConfig(Config):
@@ -48,3 +55,83 @@ def register(client, handle="test_user", email="t@example.invalid",
 
 def csrf_of(resp) -> str:
     return resp.get_json()["csrf"]
+
+
+SYNTH_HERON = {
+    "schemaVersion": "2.0",
+    "id": "01J9Y0AAAAAAAAAAAAAAAAAAAA",
+    "name": "Pointe du Héron",
+    "country": "FR",
+    "status": "open",
+    "access": "tolerated",
+    "sensitivity": "public",
+    "provenance": [{"source": "panel", "contributor": "heron_n",
+                    "contributedAt": "2026-04-02", "licence": "ODbL-1.0"}],
+    "updatedAt": "2026-08-27T09:00:00Z",
+    "features": [
+        {"role": "exit", "name": "High exit",
+         "position": {"lat": 45.9012, "lon": 6.5123, "elevationM": 2140},
+         "objectType": "earth", "suitability": {"sliderOff": True, "wingsuit": True},
+         "exitDirectionDeg": 210},
+        {"role": "landing", "name": "Pré Rond", "surface": "grass",
+         "position": {"lat": 45.8951, "lon": 6.5089, "elevationM": 1180}},
+    ],
+}
+
+
+@pytest.fixture()
+def commons_repo(tmp_path):
+    """A tmp commons with one published synthetic site + built artifacts."""
+    from build_artifacts import build
+    from openexit_validator.normalize import write_json
+
+    repo = tmp_path / "commons"
+    write_json(repo / "sites" / "fr" / "pointe-du-heron.json", SYNTH_HERON)
+    build(repo, repo / "build")
+    return repo
+
+
+@pytest.fixture()
+def commons_app(tmp_path, commons_repo):
+    from openexit_panel.services import nearby
+    nearby.invalidate()
+
+    class Cfg(TestConfig):
+        COMMONS_REPO_PATH = commons_repo
+        MEDIA_ROOT = tmp_path / "media"
+
+    return create_app(Cfg, create_tables=True)
+
+
+@pytest.fixture()
+def contributor(commons_app):
+    """(client, headers) for a registered user with current terms accepted."""
+    client = commons_app.test_client()
+    resp = register(client)
+    headers = {"X-CSRF-Token": csrf_of(resp)}
+    client.post("/api/v1/terms/accept", headers=headers,
+                json={"terms_version": "contributor-terms-2026-08"})
+    return client, headers
+
+
+def wizard_payload(*, lat=45.7123, lon=6.3123, name="Falaise Nouvelle",
+                   with_landing=False, kind="new_site", **extra):
+    features = [{
+        "role": "exit", "lat": lat, "lon": lon, "elevationM": 1500,
+        "positionSource": "gps", "precisionM": 10, "objectType": "earth",
+        "suitability": {"sliderOff": True, "tracksuit": True},
+        "exitDirectionDeg": 180,
+        "measurements": {"rockdrop": {"valueM": 150, "method": "estimate",
+                                      "measuredAt": "2026-08"}},
+    }]
+    if with_landing:
+        features.append({"role": "landing", "lat": lat - 0.004, "lon": lon + 0.002,
+                         "elevationM": 900, "positionSource": "map", "surface": "grass"})
+    payload = {
+        "kind": kind,
+        "site": {"name": name, "country": "FR", "status": "open", "access": "tolerated"},
+        "features": features,
+        "notes": {"language": "fr", "observations": "Site fictif de test."},
+    }
+    payload.update(extra)
+    return payload

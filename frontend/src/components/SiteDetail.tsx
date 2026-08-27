@@ -1,5 +1,7 @@
+import { Link } from "react-router";
 import { useTranslation } from "react-i18next";
 import type { MeasurementValue, SiteDocument } from "../lib/api";
+import CommunitySection from "./CommunitySection";
 
 const SUITABILITY_ORDER = ["slick", "sliderOff", "sliderUp", "wingsuit", "tracksuit", "staticLine"];
 const MEASUREMENT_ORDER = ["rockdrop", "heightAgl", "totalHeight", "distanceToTalus", "flyableAltitude", "minGlideRatio"];
@@ -10,7 +12,7 @@ function statusBadgeClass(status: string): string {
   return "bg-[#fbe4e2] text-[#8f231d]";
 }
 
-export default function SiteDetail({ site }: { site: SiteDocument }) {
+export default function SiteDetail({ site, sitePath }: { site: SiteDocument; sitePath?: string }) {
   const { t } = useTranslation(["site", "common"]);
   const mainExit = site.features.find((f) => f.role === "exit");
   const pos = mainExit?.position;
@@ -137,15 +139,22 @@ export default function SiteDetail({ site }: { site: SiteDocument }) {
         </p>
       </div>
 
-      {/* Actions (wired in Phase 5) */}
+      {/* Community layer (ADR-7) */}
+      {sitePath && <CommunitySection sitePath={sitePath} />}
+
       <div className="flex gap-2.5">
-        <button
-          type="button"
-          disabled
-          className="flex-1 cursor-not-allowed rounded border-[1.5px] border-line py-3 text-sm font-bold text-faint"
-        >
-          {t("site:panel.suggestChange")}
-        </button>
+        {sitePath ? (
+          <Link
+            to={`/panel/wizard?correct=${sitePath}`}
+            className="flex-1 rounded border-[1.5px] border-ink py-3 text-center text-sm font-bold"
+          >
+            {t("site:panel.suggestChange")}
+          </Link>
+        ) : (
+          <span className="flex-1 rounded border-[1.5px] border-line py-3 text-center text-sm font-bold text-faint">
+            {t("site:panel.suggestChange")}
+          </span>
+        )}
         <button
           type="button"
           disabled
