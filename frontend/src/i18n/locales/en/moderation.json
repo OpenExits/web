@@ -1,0 +1,35 @@
+{
+  "title": "Moderation",
+  "lanes": { "pending": "Pending", "changes_requested": "Awaiting changes", "publish_failed": "Publish failed", "reports": "Reports" },
+  "flags": { "duplicate_override": "DUPLICATE OVERRIDE", "no_landing": "NO LANDING", "validator_warns": "{{count}} WARN(S)" },
+  "contributorMeta": "{{handle}} · {{count}} published",
+  "sensitivity": "Sensitivity reminder: check this is not an access-restricted or landowner-sensitive exit before publishing. Publication is permanent.",
+  "detail": {
+    "normalized": "Normalized document",
+    "validator": "Machine report",
+    "notes": "Contributor notes",
+    "media": "Photos",
+    "thread": "Thread",
+    "editHint": "Advanced: edit the normalized JSON (validated on save)",
+    "save": "Save & re-validate",
+    "saved": "Saved — document re-validated.",
+    "approve": "Approve & publish",
+    "publishing": "Publishing…",
+    "requestChanges": "Request changes",
+    "reject": "Reject",
+    "messagePrompt": "Message to the contributor",
+    "reasonPrompt": "Reason (sent to the contributor)",
+    "publishOk": "Published: {{site}} ({{sha}})",
+    "publishFailed": "Publish failed — the gate report is below. Fix and retry.",
+    "retry": "Retry publish",
+    "reply": "Reply to the contributor…",
+    "send": "Send"
+  },
+  "reports": {
+    "empty": "No open reports.",
+    "resolve": "Resolve",
+    "dismiss": "Dismiss",
+    "by": "reported by {{handle}}"
+  },
+  "forbidden": "Moderator access required."
+}

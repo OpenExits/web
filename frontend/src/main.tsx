@@ -16,6 +16,7 @@ const Docs = lazy(() => import("./pages/Docs"));
 const PanelHome = lazy(() => import("./pages/panel/PanelHome"));
 const Wizard = lazy(() => import("./pages/panel/wizard/Wizard"));
 const Submissions = lazy(() => import("./pages/panel/Submissions"));
+const Moderation = lazy(() => import("./pages/panel/Moderation"));
 
 createRoot(document.getElementById("root")!).render(
   <StrictMode>
@@ -42,6 +43,14 @@ createRoot(document.getElementById("root")!).render(
                 element={
                   <RequireAuth>
                     <Submissions />
+                  </RequireAuth>
+                }
+              />
+              <Route
+                path="panel/moderation"
+                element={
+                  <RequireAuth>
+                    <Moderation />
                   </RequireAuth>
                 }
               />

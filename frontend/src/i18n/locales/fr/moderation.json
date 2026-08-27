@@ -1,0 +1,35 @@
+{
+  "title": "Modération",
+  "lanes": { "pending": "En attente", "changes_requested": "Modifs demandées", "publish_failed": "Échec publication", "reports": "Signalements" },
+  "flags": { "duplicate_override": "DOUBLON ASSUMÉ", "no_landing": "SANS ATTERRISSAGE", "validator_warns": "{{count}} AVERT." },
+  "contributorMeta": "{{handle}} · {{count}} publiée(s)",
+  "sensitivity": "Rappel sensibilité : vérifiez que ce n'est pas un exit à accès restreint ou sensible avant de publier. La publication est permanente.",
+  "detail": {
+    "normalized": "Document normalisé",
+    "validator": "Rapport machine",
+    "notes": "Notes du contributeur",
+    "media": "Photos",
+    "thread": "Fil",
+    "editHint": "Avancé : éditer le JSON normalisé (validé à l'enregistrement)",
+    "save": "Enregistrer & revalider",
+    "saved": "Enregistré — document revalidé.",
+    "approve": "Approuver & publier",
+    "publishing": "Publication…",
+    "requestChanges": "Demander des modifs",
+    "reject": "Refuser",
+    "messagePrompt": "Message au contributeur",
+    "reasonPrompt": "Motif (envoyé au contributeur)",
+    "publishOk": "Publié : {{site}} ({{sha}})",
+    "publishFailed": "Publication refusée par les gardes — rapport ci-dessous. Corrigez puis réessayez.",
+    "retry": "Réessayer la publication",
+    "reply": "Répondre au contributeur…",
+    "send": "Envoyer"
+  },
+  "reports": {
+    "empty": "Aucun signalement ouvert.",
+    "resolve": "Résoudre",
+    "dismiss": "Classer",
+    "by": "signalé par {{handle}}"
+  },
+  "forbidden": "Accès modérateur requis."
+}

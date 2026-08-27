@@ -13,10 +13,20 @@ site to this script.
 """
 from __future__ import annotations
 
+import os
 import shutil
+import stat
 import subprocess
 import sys
 from pathlib import Path
+
+
+def _rmtree_git_safe(path: Path) -> None:
+    """rmtree that survives git's read-only object files on Windows."""
+    def _clear_ro(func, p, _exc):
+        os.chmod(p, stat.S_IWRITE)
+        func(p)
+    shutil.rmtree(path, onexc=lambda f, p, e: _clear_ro(f, p, e))
 
 from openexit_validator import validate_file
 from openexit_validator.normalize import slugify, write_json
@@ -106,7 +116,7 @@ def main() -> int:
     if hasattr(sys.stdout, "reconfigure"):
         sys.stdout.reconfigure(encoding="utf-8")
     if DEV_COMMONS.exists():
-        shutil.rmtree(DEV_COMMONS)
+        _rmtree_git_safe(DEV_COMMONS)
     for doc in SITES:
         path = DEV_COMMONS / "sites" / doc["country"].lower() / f"{slugify(doc['name'])}.json"
         write_json(path, doc)
@@ -114,6 +124,13 @@ def main() -> int:
         if not report.ok:
             print(f"seed site invalid: {path.name}: {[f.message for f in report.findings]}")
             return 1
+    # the publisher runs ci/run_gates.py from inside the repo — mirror the real
+    # commons toolchain into the dev repo
+    real_commons = BACKEND.parents[1] / "commons"
+    for sub in ("ci", "scripts"):
+        shutil.copytree(real_commons / sub, DEV_COMMONS / sub,
+                        ignore=shutil.ignore_patterns("__pycache__"))
+    shutil.copy(real_commons / ".gitignore", DEV_COMMONS / ".gitignore")
     build(DEV_COMMONS, DEV_COMMONS / "build")
     subprocess.run(["git", "-C", str(DEV_COMMONS), "init", "-q"], check=True)
     subprocess.run(["git", "-C", str(DEV_COMMONS), "add", "-A"], check=True)

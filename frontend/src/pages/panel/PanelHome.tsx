@@ -4,7 +4,7 @@ import { useAuth } from "../../lib/auth";
 import AuthPage from "./Auth";
 
 export default function PanelHome() {
-  const { t } = useTranslation("common");
+  const { t } = useTranslation(["common", "moderation"]);
   const { user, ready, logout } = useAuth();
 
   if (!ready) return <div className="p-16 text-center text-muted">…</div>;
@@ -23,6 +23,14 @@ export default function PanelHome() {
       >
         {t("panelHome.mySubmissions")}
       </Link>
+      {user.role !== "user" && (
+        <Link
+          to="/panel/moderation"
+          className="rounded border-[1.5px] border-ink py-3.5 text-center font-semibold"
+        >
+          {t("moderation:title")}
+        </Link>
+      )}
       <button type="button" onClick={logout} className="mt-4 self-start text-sm font-semibold text-muted">
         {t("panelHome.signOut")}
       </button>
