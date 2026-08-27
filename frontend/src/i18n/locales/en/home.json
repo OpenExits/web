@@ -1,0 +1,58 @@
+{
+  "hero": {
+    "kicker": "AN OPEN STANDARD + A COMMUNITY-OWNED COMMONS",
+    "title": "One shared format for BASE exit data.",
+    "sub": "Today every app and database stores exit sites differently, and nothing is compatible — when a platform shuts down, its data disappears with it. With a shared format, any app can read and contribute the same data, and the knowledge outlives the tools.",
+    "ctaMap": "Browse the map",
+    "ctaSpec": "Read the standard"
+  },
+  "problem": {
+    "title": "The same number, stored twice, in two units.",
+    "body": "In a widely-used community dataset, whole field pairs carry the same physical quantity in metres and feet, under names that disclose neither the unit nor the meaning. A consumer that guesses wrong is off by a factor of 3.28 — on a number people use to choose a slider configuration. That is what happens to every schema that grows without a standard.",
+    "codeCommentBad": "// which one is metres?",
+    "codeCommentGood": "// OpenExit — the unit is in the name"
+  },
+  "pillars": {
+    "title": "Three pieces, one commons",
+    "standard": {
+      "title": "The standard",
+      "body": "A versioned, machine-validated specification for how exit sites are described — location, heights, access, landings, hazards. Free to implement for anyone, even proprietary apps (CC0)."
+    },
+    "commons": {
+      "title": "The commons",
+      "body": "A public database of exit sites in that format, contributed by jumpers, reviewed by humans before anything publishes, and free for every app to use (ODbL)."
+    },
+    "foundation": {
+      "title": "The foundation",
+      "body": "An independent non-profit — not a company, not an app — that owns the name and infrastructure for one purpose: keeping the standard and the data open, neutral, and alive."
+    }
+  },
+  "locks": {
+    "title": "Why the data belongs to the community, forever",
+    "sub": "Three locks, working together.",
+    "lock1": {
+      "title": "Everyone holds a copy",
+      "body": "Anyone is free to copy the whole database. Thousands of copies means no one can ever delete it or hold it hostage."
+    },
+    "lock2": {
+      "title": "The licence forbids enclosure",
+      "body": "You can build on the data, even commercially — but improvements to the database must be shared back. Nobody can take it private."
+    },
+    "lock3": {
+      "title": "Contributors keep their rights",
+      "body": "You lend your contribution to the commons — you never surrender it. Even the licence can only change by a vote of the contributors themselves."
+    }
+  },
+  "contribute": {
+    "title": "Know a site? Add it from your phone.",
+    "body": "Drop a pin, answer a short set of questions, and a human moderator reviews everything before it publishes. Corrections work the same way — and every contribution keeps your name on it, permanently.",
+    "cta": "Add an exit",
+    "ctaAlt": "or suggest a correction",
+    "steps": {
+      "kicker": "EVERY CONTRIBUTION",
+      "s1": "Instant machine check",
+      "s2": "Human review before anything publishes",
+      "s3": "Published with your credit, forever"
+    }
+  }
+}

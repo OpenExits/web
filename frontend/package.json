@@ -1,0 +1,38 @@
+{
+  "name": "openexit-frontend",
+  "private": true,
+  "version": "0.1.0",
+  "type": "module",
+  "scripts": {
+    "sync-docs": "node scripts/sync-spec-docs.mjs",
+    "predev": "npm run sync-docs",
+    "dev": "vite",
+    "prebuild": "npm run sync-docs",
+    "build": "tsc -b && vite build",
+    "pretest": "npm run sync-docs",
+    "test": "vitest run",
+    "preview": "vite preview"
+  },
+  "dependencies": {
+    "i18next": "^24.2.0",
+    "react": "^19.0.0",
+    "react-dom": "^19.0.0",
+    "react-i18next": "^15.4.0",
+    "react-markdown": "^9.0.0",
+    "react-router": "^7.1.0"
+  },
+  "devDependencies": {
+    "@tailwindcss/vite": "^4.0.0",
+    "@testing-library/jest-dom": "^6.6.0",
+    "@testing-library/react": "^16.1.0",
+    "@types/node": "^22.10.0",
+    "@types/react": "^19.0.0",
+    "@types/react-dom": "^19.0.0",
+    "@vitejs/plugin-react": "^4.3.4",
+    "jsdom": "^25.0.0",
+    "tailwindcss": "^4.0.0",
+    "typescript": "^5.7.0",
+    "vite": "^5.4.0",
+    "vitest": "^2.1.0"
+  }
+}

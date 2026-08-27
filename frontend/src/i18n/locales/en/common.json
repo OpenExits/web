@@ -1,0 +1,27 @@
+{
+  "nav": {
+    "standard": "The standard",
+    "map": "Map",
+    "contribute": "Contribute",
+    "foundation": "Foundation",
+    "signIn": "Sign in"
+  },
+  "footer": {
+    "runBy": "Run by the OpenExit Foundation — an independent non-profit.",
+    "licences": "Data © OpenExit contributors · ODbL 1.0 · Spec CC0 1.0 · Tools MIT",
+    "standard": "Standard",
+    "specification": "Specification",
+    "schema": "JSON Schema",
+    "validator": "Validator",
+    "commons": "Commons",
+    "consuming": "Consuming the data",
+    "terms": "Contributor Terms",
+    "governance": "Governance",
+    "language": "Language"
+  },
+  "comingSoon": "Coming soon — this part of OpenExit is being built.",
+  "safety": {
+    "title": "This is unverified reference information, not advice.",
+    "body": "Conditions change — erosion, tree growth and seasonal snow can turn a once-jumpable exit lethal within months. Every measurement carries its date; check how old it is, and verify everything yourself."
+  }
+}

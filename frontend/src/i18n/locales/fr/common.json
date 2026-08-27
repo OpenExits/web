@@ -1,0 +1,27 @@
+{
+  "nav": {
+    "standard": "Le standard",
+    "map": "Carte",
+    "contribute": "Contribuer",
+    "foundation": "Association",
+    "signIn": "Connexion"
+  },
+  "footer": {
+    "runBy": "Porté par l'association OpenExit — une association indépendante à but non lucratif.",
+    "licences": "Données © contributeurs OpenExit · ODbL 1.0 · Spéc. CC0 1.0 · Outils MIT",
+    "standard": "Standard",
+    "specification": "Spécification",
+    "schema": "Schéma JSON",
+    "validator": "Validateur",
+    "commons": "Commons",
+    "consuming": "Utiliser les données",
+    "terms": "Conditions de contribution",
+    "governance": "Gouvernance",
+    "language": "Langue"
+  },
+  "comingSoon": "Bientôt disponible — cette partie d'OpenExit est en construction.",
+  "safety": {
+    "title": "Ceci est une information de référence non vérifiée, pas un conseil.",
+    "body": "Les conditions changent — l'érosion, la végétation et la neige peuvent rendre mortel en quelques mois un exit autrefois sautable. Chaque mesure porte sa date : vérifiez son ancienneté, et vérifiez tout par vous-même."
+  }
+}

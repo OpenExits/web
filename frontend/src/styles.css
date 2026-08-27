@@ -1,0 +1,77 @@
+@import "tailwindcss";
+
+/* Design tokens — the "Alpine signal" direction from the design canvas */
+@theme {
+  --color-paper: #f2f0ea;
+  --color-ink: #1a1c1e;
+  --color-granite: #14161a;
+  --color-granite-2: #24272c;
+  --color-line: #d9d6cc;
+  --color-muted: #6b6e66;
+  --color-faint: #9a978c;
+  --color-signal: #e84e10;
+  --color-signal-dark: #c43f0a;
+  --color-ondark-muted: #9aa09b;
+  --color-warnbg: #f7e9d8;
+  --color-warnline: #e3cfae;
+  --color-warntext: #6d4a0c;
+  --color-pass: #3a7d44;
+
+  --font-display: "Archivo Black", "Arial Black", sans-serif;
+  --font-sans: "Archivo", system-ui, sans-serif;
+  --font-mono: "IBM Plex Mono", Consolas, monospace;
+}
+
+body {
+  @apply bg-paper text-ink font-sans;
+}
+
+.font-display {
+  font-family: var(--font-display);
+}
+
+/* Minimal typography for the synced spec markdown (no plugin dependency) */
+.prose-spec h1 {
+  @apply font-display text-3xl mt-2 mb-5;
+}
+.prose-spec h2 {
+  @apply text-xl font-bold mt-8 mb-3;
+}
+.prose-spec h3 {
+  @apply text-lg font-bold mt-6 mb-2;
+}
+.prose-spec p {
+  @apply leading-relaxed mb-4 text-[15px];
+}
+.prose-spec ul,
+.prose-spec ol {
+  @apply mb-4 ml-5 list-disc flex flex-col gap-1.5 text-[15px];
+}
+.prose-spec ol {
+  @apply list-decimal;
+}
+.prose-spec code {
+  @apply font-mono text-[13px] bg-white border border-line rounded px-1 py-0.5;
+}
+.prose-spec pre {
+  @apply mb-4 overflow-x-auto rounded-md bg-ink p-4 text-[13px] text-[#b8bcb4];
+}
+.prose-spec pre code {
+  @apply bg-transparent border-0 p-0 text-inherit;
+}
+.prose-spec table {
+  @apply mb-4 w-full border-collapse text-sm;
+}
+.prose-spec th,
+.prose-spec td {
+  @apply border border-line px-3 py-2 text-left align-top;
+}
+.prose-spec th {
+  @apply bg-white font-semibold;
+}
+.prose-spec blockquote {
+  @apply mb-4 border-l-4 border-signal bg-white px-4 py-3 text-[15px];
+}
+.prose-spec a {
+  @apply text-signal-dark underline;
+}
