@@ -1,0 +1,64 @@
+# Publish the public site to GitHub Pages.
+#
+# This is the site WITHOUT a panel behind it: the standard, the docs and a live
+# map, but no contribution flow. VITE_PANEL_ENABLED=false makes the panel routes
+# say so instead of offering a sign-in that cannot work, and VITE_DATA_BASE
+# points the map at the commons artifacts on the CDN -- the same route
+# docs/consuming.md tells every other consumer to use.
+#
+# When the panel is deployed this workflow is retired in favour of serving the
+# built frontend from the same host as the API.
+name: pages
+on:
+  push:
+    branches: [main]
+    paths: ["frontend/**", ".github/workflows/pages.yml"]
+  workflow_dispatch: {}
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: pages
+  cancel-in-progress: true
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+          cache: npm
+          cache-dependency-path: frontend/package-lock.json
+      - run: npm ci
+        working-directory: frontend
+      - name: Build
+        env:
+          VITE_PANEL_ENABLED: "false"
+          VITE_DATA_BASE: "https://cdn.jsdelivr.net/gh/OpenExits/commons@main"
+        run: npm run build
+        working-directory: frontend
+      - name: SPA fallback
+        # BrowserRouter means /docs and /map are not real files. Pages serves
+        # 404.html for unknown paths, so a copy of index.html there makes a
+        # deep link work instead of 404ing.
+        run: cp frontend/dist/index.html frontend/dist/404.html
+      - name: Custom domain
+        run: echo "openexits.org" > frontend/dist/CNAME
+      - uses: actions/upload-pages-artifact@v3
+        with:
+          path: frontend/dist
+
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - id: deployment
+        uses: actions/deploy-pages@v4

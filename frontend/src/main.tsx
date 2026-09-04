@@ -6,7 +6,9 @@ import "./i18n";
 import "./styles.css";
 import Layout from "./components/Layout";
 import Home from "./pages/Home";
+import { PANEL_ENABLED } from "./lib/api";
 import { AuthProvider } from "./lib/auth";
+import PanelUnavailable from "./pages/PanelUnavailable";
 import RequireAuth from "./pages/panel/RequireAuth";
 
 // Route-level code splitting: MapLibre and the markdown renderer stay out of
@@ -29,31 +31,39 @@ createRoot(document.getElementById("root")!).render(
               <Route path="docs" element={<Docs />} />
               <Route path="docs/:slug" element={<Docs />} />
               <Route path="map" element={<MapPage />} />
-              <Route path="panel" element={<PanelHome />} />
-              <Route
-                path="panel/wizard"
-                element={
-                  <RequireAuth>
-                    <Wizard />
-                  </RequireAuth>
-                }
-              />
-              <Route
-                path="panel/submissions"
-                element={
-                  <RequireAuth>
-                    <Submissions />
-                  </RequireAuth>
-                }
-              />
-              <Route
-                path="panel/moderation"
-                element={
-                  <RequireAuth>
-                    <Moderation />
-                  </RequireAuth>
-                }
-              />
+              {PANEL_ENABLED ? (
+                <>
+                  <Route path="panel" element={<PanelHome />} />
+                  <Route
+                    path="panel/wizard"
+                    element={
+                      <RequireAuth>
+                        <Wizard />
+                      </RequireAuth>
+                    }
+                  />
+                  <Route
+                    path="panel/submissions"
+                    element={
+                      <RequireAuth>
+                        <Submissions />
+                      </RequireAuth>
+                    }
+                  />
+                  <Route
+                    path="panel/moderation"
+                    element={
+                      <RequireAuth>
+                        <Moderation />
+                      </RequireAuth>
+                    }
+                  />
+                </>
+              ) : (
+                // A build with no backend: every panel route says so, rather
+                // than offering a sign-in that cannot succeed.
+                <Route path="panel/*" element={<PanelUnavailable />} />
+              )}
             </Route>
           </Routes>
         </Suspense>

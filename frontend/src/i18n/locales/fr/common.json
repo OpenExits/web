@@ -47,5 +47,12 @@
   "safety": {
     "title": "Ceci est une information de référence non vérifiée, pas un conseil.",
     "body": "Les conditions changent — l'érosion, la végétation et la neige peuvent rendre mortel en quelques mois un exit autrefois sautable. Chaque mesure porte sa date : vérifiez son ancienneté, et vérifiez tout par vous-même."
+  },
+  "panelUnavailable": {
+    "title": "Les contributions ne sont pas encore ouvertes",
+    "body": "Le panneau de soumission n'est pas en ligne. OpenExits est publié et le standard est terminé, mais le service qui reçoit les nouveaux exits et les fait passer en relecture humaine n'est pas encore déployé.",
+    "meanwhile": "La spécification, le validateur et le commons sont publics et utilisables dès aujourd'hui. Pour proposer un site maintenant, le dépôt l'accepte directement.",
+    "contributing": "Comment contribuer",
+    "github": "Voir les dépôts"
   }
 }
