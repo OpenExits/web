@@ -32,7 +32,7 @@ from . import nearby
 from .state_machine import transition
 
 BOT_NAME = "OpenExits Bot"
-BOT_EMAIL = "bot@openexits.invalid"  # set the real address before hosting
+BOT_EMAIL = "bot@openexits.org"
 
 
 class PublishBusy(Exception):
