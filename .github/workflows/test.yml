@@ -13,16 +13,41 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
+        with:
+          path: web
+      # The publishing tests drive a real commons clone end to end. Without it they
+      # skip rather than fail, so this checkout is what stops CI quietly proving less
+      # than it appears to.
+      - uses: actions/checkout@v4
+        with:
+          repository: OpenExits/commons
+          path: commons
       - uses: actions/setup-python@v5
         with:
           python-version: "3.12"
       - name: Install (pins the validator to a specification tag)
-        run: pip install -e "./backend[dev]"
-      - run: python -m pytest -q
-        working-directory: backend
+        run: pip install -e "./web/backend[dev]"
+      - name: Tests
+        env:
+          OPENEXITS_COMMONS_PATH: ${{ github.workspace }}/commons
+        run: python -m pytest -q
+        working-directory: web/backend
+      - name: Fail if the commons-dependent tests were skipped
+        env:
+          OPENEXITS_COMMONS_PATH: ${{ github.workspace }}/commons
+        run: |
+          if python -m pytest -q -rs 2>&1 | grep -q "needs a commons checkout"; then
+            echo "::error::commons checkout not found — the publishing tests skipped silently"
+            exit 1
+          fi
+          echo "commons-dependent tests ran"
+        working-directory: web/backend
 
   frontend:
     runs-on: ubuntu-latest
+    # No specification checkout on purpose: the build must work from a bare clone of
+    # this repository, fetching the pinned spec tag over HTTPS. Checking the sibling
+    # out here would hide the failure a real contributor hits.
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4

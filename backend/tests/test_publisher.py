@@ -11,12 +11,17 @@ from pathlib import Path
 
 import pytest
 
-from conftest import SYNTH_HERON, TestConfig, csrf_of, register, wizard_payload
+from conftest import (COMMONS_REPO, HAVE_COMMONS, SYNTH_HERON, TestConfig,
+                      csrf_of, register, requires_commons, wizard_payload)
 from openexits_panel.app import create_app
 from openexits_panel.db import session as db_session
 from openexits_panel.models import User
 
-REAL_COMMONS = Path(__file__).resolve().parents[3] / "commons"
+# The whole module drives a real local commons clone end to end, so it cannot
+# degrade to a partial run: skip it wholesale when there is no checkout.
+pytestmark = requires_commons
+
+REAL_COMMONS = COMMONS_REPO
 
 
 def _git(repo: Path, *args: str) -> str:
@@ -27,6 +32,8 @@ def _git(repo: Path, *args: str) -> str:
 @pytest.fixture()
 def pub_commons(tmp_path):
     """A publishable commons: sites + the real ci/scripts toolchain + git."""
+    if not HAVE_COMMONS:
+        pytest.skip(requires_commons.kwargs["reason"])
     from build_artifacts import build
     from openexits_validator.normalize import write_json
 

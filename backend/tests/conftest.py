@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+import os
 import sys
 from pathlib import Path
 
@@ -8,9 +9,34 @@ import pytest
 from openexits_panel.app import create_app
 from openexits_panel.config import Config
 
-COMMONS_SCRIPTS = Path(__file__).resolve().parents[3] / "commons" / "scripts"
-if str(COMMONS_SCRIPTS) not in sys.path:
+# The panel's job is to publish into a commons clone, so the tests that exercise
+# publishing need commons/scripts on the path. That is a sibling checkout, which a
+# contributor cloning only this repository will not have.
+#
+# Resolve it if present, and let the tests that need it skip cleanly if not, rather
+# than failing collection for the whole suite -- a contributor running pytest on a
+# bare `web` clone should get a passing run, not an ImportError. CI checks commons
+# out alongside so nothing is silently skipped there.
+#
+# Override with OPENEXITS_COMMONS_PATH when the checkout lives somewhere else.
+_env_commons = os.environ.get("OPENEXITS_COMMONS_PATH")
+COMMONS_REPO = (
+    Path(_env_commons).resolve() if _env_commons
+    else Path(__file__).resolve().parents[3] / "commons"
+)
+COMMONS_SCRIPTS = COMMONS_REPO / "scripts"
+HAVE_COMMONS = (COMMONS_SCRIPTS / "build_artifacts.py").is_file()
+
+if HAVE_COMMONS and str(COMMONS_SCRIPTS) not in sys.path:
     sys.path.insert(0, str(COMMONS_SCRIPTS))
+
+requires_commons = pytest.mark.skipif(
+    not HAVE_COMMONS,
+    reason=(
+        f"needs a commons checkout at {COMMONS_REPO} (or OPENEXITS_COMMONS_PATH); "
+        "clone OpenExits/commons beside this repository to run these"
+    ),
+)
 
 
 class TestConfig(Config):
@@ -81,7 +107,14 @@ SYNTH_HERON = {
 
 @pytest.fixture()
 def commons_repo(tmp_path):
-    """A tmp commons with one published synthetic site + built artifacts."""
+    """A tmp commons with one published synthetic site + built artifacts.
+
+    Skipping here rather than at each test site means everything downstream --
+    commons_app, contributor, and every test built on them -- skips with it.
+    """
+    if not HAVE_COMMONS:
+        pytest.skip(requires_commons.kwargs["reason"])
+
     from build_artifacts import build
     from openexits_validator.normalize import write_json
 
