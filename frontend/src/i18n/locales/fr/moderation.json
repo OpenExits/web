@@ -1,7 +1,16 @@
 {
   "title": "Modération",
-  "lanes": { "pending": "En attente", "changes_requested": "Modifs demandées", "publish_failed": "Échec publication", "reports": "Signalements" },
-  "flags": { "duplicate_override": "DOUBLON ASSUMÉ", "no_landing": "SANS ATTERRISSAGE", "validator_warns": "{{count}} AVERT." },
+  "lanes": {
+    "pending": "En attente",
+    "changes_requested": "Modifs demandées",
+    "publish_failed": "Échec publication",
+    "reports": "Signalements"
+  },
+  "flags": {
+    "duplicate_override": "DOUBLON ASSUMÉ",
+    "no_landing": "SANS ATTERRISSAGE",
+    "validator_warns": "{{count}} AVERT."
+  },
   "contributorMeta": "{{handle}} · {{count}} publiée(s)",
   "sensitivity": "Rappel sensibilité : vérifiez que ce n'est pas un exit à accès restreint ou sensible avant de publier. La publication est permanente.",
   "detail": {
@@ -31,5 +40,6 @@
     "dismiss": "Classer",
     "by": "signalé par {{handle}}"
   },
-  "forbidden": "Accès modérateur requis."
+  "forbidden": "Accès modérateur requis.",
+  "scope": "Contrôle de conformité, pas de vérification : confirmez que la fiche respecte le standard, qu'elle est cohérente, de bonne foi, et qu'il ne s'agit pas d'un site sensible. Vous ne confirmez pas qu'il est sûr, que les mesures sont justes, ni que quiconque devrait y sauter. Personne ne vérifie ces fiches face à la réalité — c'est le rôle du sauteur."
 }

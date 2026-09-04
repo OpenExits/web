@@ -15,6 +15,7 @@ import RequireAuth from "./pages/panel/RequireAuth";
 // the homepage bundle.
 const MapPage = lazy(() => import("./pages/Map"));
 const Docs = lazy(() => import("./pages/Docs"));
+const Terms = lazy(() => import("./pages/Terms"));
 const PanelHome = lazy(() => import("./pages/panel/PanelHome"));
 const Wizard = lazy(() => import("./pages/panel/wizard/Wizard"));
 const Submissions = lazy(() => import("./pages/panel/Submissions"));
@@ -31,6 +32,7 @@ createRoot(document.getElementById("root")!).render(
               <Route path="docs" element={<Docs />} />
               <Route path="docs/:slug" element={<Docs />} />
               <Route path="map" element={<MapPage />} />
+              <Route path="terms" element={<Terms />} />
               {PANEL_ENABLED ? (
                 <>
                   <Route path="panel" element={<PanelHome />} />

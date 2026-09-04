@@ -1,0 +1,42 @@
+{
+  "title": "Terms of use",
+  "updated": "Draft — pending legal review.",
+  "headline": "BASE jumping can kill you. Nothing here is advice, a recommendation, or an assurance that any site is safe. Every judgement about whether to jump is yours alone.",
+  "nature": {
+    "title": "What this is",
+    "body": "OpenExits publishes an open standard and a community-contributed database of BASE exit sites. The records are written by members of the public. They may be wrong, out of date, incomplete, or describe a site that no longer exists in the form described.\n\nConditions change. Erosion, rockfall, tree growth, seasonal snow, new obstacles and changes of ownership can turn a site that was once considered jumpable into one that is lethal, and can do so within months of a record being written. Every measurement in this database carries the date it was taken. Read that date."
+  },
+  "review": {
+    "title": "What review means — and does not mean",
+    "body": "Submissions are reviewed by volunteers before publication. That review is a conformance check: does the record follow the standard, is it internally consistent, does it appear to be offered in good faith, is it not obviously a sensitive site.\n\nNobody acting for OpenExits visits sites, takes measurements, or checks any record against reality. A reviewer does not confirm that a site is safe, that a measurement is accurate, that access is lawful, or that anyone should jump it.\n\nA published record means one thing: this submission conformed to the standard and passed the automated gates. It carries no other assertion. Approval is an administrative act and is not an endorsement, a recommendation, a safety assessment, or advice."
+  },
+  "noWarranty": {
+    "title": "No warranty",
+    "body": "The data, the specification, the software and this website are provided \"as is\" and \"as available\", without warranty of any kind, express or implied, including without limitation any warranty of accuracy, completeness, currency, fitness for a particular purpose, or non-infringement.\n\nTo the fullest extent permitted by law, neither OpenExits, nor the association that stewards it, nor its members, maintainers, moderators, administrators, contributors or volunteers shall be liable for any loss, injury or death arising from use of, or reliance on, this data or this website — whether that use was foreseeable or not, and whether the claim is in contract, tort, negligence or otherwise.\n\nNothing in these terms excludes liability that cannot lawfully be excluded."
+  },
+  "yourResponsibility": {
+    "title": "Your responsibility",
+    "body": "If you jump, you do so entirely at your own risk and on your own judgement.\n\nVerify everything yourself, on site, before committing. Assess the object, the landing area, the conditions and your own currency and ability. Seek out local knowledge — a person who jumps a site regularly knows things no database records. If a record and what you see in front of you disagree, believe your eyes.\n\nUsing this website does not create any relationship of advice, supervision, instruction or duty of care between you and anyone involved in OpenExits."
+  },
+  "contributions": {
+    "title": "If you contribute",
+    "body": "You keep the rights in what you contribute and grant a licence for it to be published as part of the OpenExits database under ODbL 1.0 — see the Contributor Terms, which you accept before submitting.\n\nYou must have the right to contribute the material. Do not copy from a third-party database without permission. You are responsible for what you submit; review does not transfer that responsibility to the reviewer."
+  },
+  "sensitive": {
+    "title": "Sensitive sites",
+    "body": "Do not submit access-restricted or landowner-sensitive sites. A submission publishes its content permanently, even if it is later rejected or deleted.\n\nIf a site has been published that should not have been, email security@openexits.org immediately, naming the file or commit only, and do not describe the site in any public channel."
+  },
+  "licences": {
+    "title": "Licences",
+    "body": "The database is published under ODbL 1.0 and its contents under DbCL 1.0. The specification and JSON Schema are CC0 1.0. The software is MIT. Attribution is required when you use the data; ingesting it into your own database creates a derivative database and triggers share-alike. See the consuming guide for the distinction.\n\nAnyone displaying OpenExits data must surface that it is unverified reference information and that conditions change (specification rule OE-R09)."
+  },
+  "people": {
+    "title": "The people who run this",
+    "body": "Moderators, administrators and maintainers act on behalf of the project, not personally, when performing the duties described in the governance document. OpenExits is currently stewarded by its founder while the non-profit association that will take it over is being formed.\n\nThese are volunteers. Nobody is paid, and nobody is asked to accept personal exposure for reviewing a submission according to the published rules."
+  },
+  "changes": {
+    "title": "Changes",
+    "body": "These terms may change. Material changes to the Contributor Terms are versioned, and contributors are asked to accept the new version before submitting again."
+  },
+  "contact": "Questions: contact@openexits.org · Security and sensitive-site reports: security@openexits.org"
+}

@@ -18,7 +18,7 @@ const dist = resolve(here, "../dist");
 const specDir = resolve(here, "../src/content/spec");
 const source = join(dist, "index.html");
 
-const routes = ["docs", "map", "panel"];
+const routes = ["docs", "map", "panel", "terms"];
 
 for (const name of readdirSync(specDir)) {
   if (name.endsWith(".md")) routes.push(`docs/${name.replace(/\.md$/, "")}`);

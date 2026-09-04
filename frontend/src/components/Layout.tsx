@@ -89,7 +89,7 @@ export default function Layout() {
             <div className="flex flex-col gap-2">
               <span className="font-semibold text-paper">{t("footer.commons")}</span>
               <Link to="/docs">{t("footer.consuming")}</Link>
-              <Link to="/docs">{t("footer.terms")}</Link>
+              <Link to="/terms">{t("footer.terms")}</Link>
               <Link to="/docs">{t("footer.governance")}</Link>
             </div>
           </div>

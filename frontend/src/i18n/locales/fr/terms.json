@@ -1,0 +1,42 @@
+{
+  "title": "Conditions d'utilisation",
+  "updated": "Brouillon — en attente de relecture juridique.",
+  "headline": "Le BASE jump peut vous tuer. Rien ici n'est un conseil, une recommandation, ni une garantie qu'un site est sûr. Chaque décision de sauter n'appartient qu'à vous.",
+  "nature": {
+    "title": "De quoi il s'agit",
+    "body": "OpenExits publie un standard ouvert et une base de données communautaire de sites de BASE. Les fiches sont rédigées par des membres du public. Elles peuvent être fausses, obsolètes, incomplètes, ou décrire un site qui n'existe plus sous la forme décrite.\n\nLes conditions changent. L'érosion, les chutes de pierres, la végétation, la neige saisonnière, de nouveaux obstacles ou un changement de propriétaire peuvent rendre mortel un site autrefois considéré comme sautable, et ce en quelques mois. Chaque mesure porte sa date. Lisez cette date."
+  },
+  "review": {
+    "title": "Ce que la relecture signifie — et ne signifie pas",
+    "body": "Les soumissions sont relues par des bénévoles avant publication. Cette relecture est un contrôle de conformité : la fiche respecte-t-elle le standard, est-elle cohérente, semble-t-elle proposée de bonne foi, ne s'agit-il pas manifestement d'un site sensible.\n\nPersonne agissant pour OpenExits ne se rend sur les sites, ne prend de mesures, ni ne vérifie une fiche face à la réalité. Un relecteur ne confirme pas qu'un site est sûr, qu'une mesure est exacte, que l'accès est légal, ni que quiconque devrait y sauter.\n\nUne fiche publiée signifie une seule chose : cette soumission était conforme au standard et a passé les contrôles automatiques. Elle ne porte aucune autre affirmation. L'approbation est un acte administratif : ce n'est ni une caution, ni une recommandation, ni une évaluation de sécurité, ni un conseil."
+  },
+  "noWarranty": {
+    "title": "Absence de garantie",
+    "body": "Les données, la spécification, les logiciels et ce site sont fournis « en l'état » et « selon disponibilité », sans garantie d'aucune sorte, expresse ou implicite, y compris sans limitation toute garantie d'exactitude, d'exhaustivité, d'actualité, d'adéquation à un usage particulier ou d'absence de contrefaçon.\n\nDans toute la mesure permise par la loi, ni OpenExits, ni l'association qui le porte, ni ses membres, mainteneurs, modérateurs, administrateurs, contributeurs ou bénévoles ne sauraient être tenus responsables d'une perte, d'une blessure ou d'un décès résultant de l'utilisation de ces données ou de ce site, ou de la confiance placée en eux.\n\nRien dans ces conditions n'exclut une responsabilité qui ne peut légalement l'être."
+  },
+  "yourResponsibility": {
+    "title": "Votre responsabilité",
+    "body": "Si vous sautez, vous le faites entièrement à vos risques et sous votre seul jugement.\n\nVérifiez tout vous-même, sur place, avant de vous engager. Évaluez l'objet, la zone de réception, les conditions, votre niveau et votre régularité. Cherchez la connaissance locale : celui qui saute un site régulièrement sait des choses qu'aucune base ne consigne. Si une fiche et ce que vous avez sous les yeux divergent, croyez vos yeux.\n\nL'utilisation de ce site ne crée aucune relation de conseil, d'encadrement, d'instruction ou d'obligation de sécurité entre vous et quiconque impliqué dans OpenExits."
+  },
+  "contributions": {
+    "title": "Si vous contribuez",
+    "body": "Vous conservez vos droits sur ce que vous apportez et accordez une licence permettant sa publication au sein de la base OpenExits sous ODbL 1.0 — voir les conditions de contribution, que vous acceptez avant de soumettre.\n\nVous devez avoir le droit de contribuer ce contenu. Ne copiez pas depuis une base tierce sans autorisation. Vous êtes responsable de ce que vous soumettez ; la relecture ne transfère pas cette responsabilité au relecteur."
+  },
+  "sensitive": {
+    "title": "Sites sensibles",
+    "body": "Ne soumettez pas de sites à accès restreint ou sensibles vis-à-vis d'un propriétaire. Une soumission publie son contenu de façon permanente, même si elle est ensuite rejetée ou supprimée.\n\nSi un site a été publié alors qu'il n'aurait pas dû l'être, écrivez immédiatement à security@openexits.org en nommant uniquement le fichier ou le commit, sans décrire le site dans un canal public."
+  },
+  "licences": {
+    "title": "Licences",
+    "body": "La base est publiée sous ODbL 1.0 et ses contenus sous DbCL 1.0. La spécification et le schéma JSON sont en CC0 1.0. Le logiciel est sous licence MIT. L'attribution est requise ; intégrer les données dans votre propre base crée une base dérivée et déclenche le partage à l'identique. Voir le guide de consommation pour la distinction.\n\nQuiconque affiche des données OpenExits doit indiquer qu'il s'agit d'informations de référence non vérifiées et que les conditions changent (règle OE-R09 de la spécification)."
+  },
+  "people": {
+    "title": "Les personnes derrière le projet",
+    "body": "Les modérateurs, administrateurs et mainteneurs agissent pour le compte du projet, non à titre personnel, lorsqu'ils exercent les fonctions décrites dans le document de gouvernance. OpenExits est aujourd'hui porté par son fondateur, le temps que soit créée l'association à but non lucratif qui le reprendra.\n\nCe sont des bénévoles. Personne n'est rémunéré, et personne n'accepte une exposition personnelle pour avoir relu une soumission selon les règles publiées."
+  },
+  "changes": {
+    "title": "Modifications",
+    "body": "Ces conditions peuvent évoluer. Les modifications substantielles des conditions de contribution sont versionnées, et les contributeurs sont invités à accepter la nouvelle version avant de soumettre à nouveau."
+  },
+  "contact": "Questions : contact@openexits.org · Sécurité et signalement de site sensible : security@openexits.org"
+}

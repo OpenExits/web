@@ -206,6 +206,12 @@ export default function Moderation() {
                   <p className="rounded border border-warnline bg-warnbg px-3 py-2 text-xs text-warntext">
                     {t("moderation:sensitivity")}
                   </p>
+                  {/* What approving does and does not assert. Kept beside the
+                      approve control rather than buried in the governance doc,
+                      because it is the moment the question actually arises. */}
+                  <p className="rounded border border-line bg-[#f4f2ec] px-3 py-2 text-xs text-[#4a4c46]">
+                    {t("moderation:scope")}
+                  </p>
                   {notice && <p className="text-sm font-semibold">{notice}</p>}
                   {gateReport && (
                     <pre className="max-h-64 overflow-auto rounded bg-ink p-3 font-mono text-[11px] text-[#e8b34b]">{gateReport}</pre>

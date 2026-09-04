@@ -1,7 +1,16 @@
 {
   "title": "Moderation",
-  "lanes": { "pending": "Pending", "changes_requested": "Awaiting changes", "publish_failed": "Publish failed", "reports": "Reports" },
-  "flags": { "duplicate_override": "DUPLICATE OVERRIDE", "no_landing": "NO LANDING", "validator_warns": "{{count}} WARN(S)" },
+  "lanes": {
+    "pending": "Pending",
+    "changes_requested": "Awaiting changes",
+    "publish_failed": "Publish failed",
+    "reports": "Reports"
+  },
+  "flags": {
+    "duplicate_override": "DUPLICATE OVERRIDE",
+    "no_landing": "NO LANDING",
+    "validator_warns": "{{count}} WARN(S)"
+  },
   "contributorMeta": "{{handle}} · {{count}} published",
   "sensitivity": "Sensitivity reminder: check this is not an access-restricted or landowner-sensitive exit before publishing. Publication is permanent.",
   "detail": {
@@ -31,5 +40,6 @@
     "dismiss": "Dismiss",
     "by": "reported by {{handle}}"
   },
-  "forbidden": "Moderator access required."
+  "forbidden": "Moderator access required.",
+  "scope": "Conformance check, not verification: confirm the record follows the standard, is coherent, is offered in good faith, and is not a sensitive site. You are not confirming it is safe, that the measurements are right, or that anyone should jump it. Nobody checks these records against reality — that is the jumper's own job."
 }
