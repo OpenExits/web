@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 26 26" width="26" height="26" role="img" aria-label="OpenExits">
+  <title>OpenExits</title>
+  <!-- Ridgeline with the exit point marked. Stroke inherits currentColor so the
+       mark works on paper (#f2f0ea) and granite (#14161a) alike; the exit dot
+       stays signal orange in both. -->
+  <path d="M3 21 L13 4 L18 13 L21 8 L23 21"
+        fill="none" stroke="currentColor" stroke-width="2.2"
+        stroke-linejoin="round" stroke-linecap="round"/>
+  <circle cx="13" cy="4" r="2.6" fill="#e84e10"/>
+</svg>
