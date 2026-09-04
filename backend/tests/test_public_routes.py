@@ -7,13 +7,13 @@ from pathlib import Path
 import pytest
 
 from conftest import TestConfig
-from openexit_panel.app import create_app
+from openexits_panel.app import create_app
 
 COMMONS_SCRIPTS = Path(__file__).resolve().parents[3] / "commons" / "scripts"
 sys.path.insert(0, str(COMMONS_SCRIPTS))
 
 from build_artifacts import build  # noqa: E402
-from openexit_validator.normalize import write_json  # noqa: E402
+from openexits_validator.normalize import write_json  # noqa: E402
 
 SYNTH_SITE = {
     "schemaVersion": "2.0",

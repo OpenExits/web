@@ -11,7 +11,7 @@ import json
 from flask import Blueprint, current_app, g, jsonify, request
 from sqlalchemy import select
 
-from openexit_validator import validate_site
+from openexits_validator import validate_site
 
 from ..auth import require_auth
 from ..models import (

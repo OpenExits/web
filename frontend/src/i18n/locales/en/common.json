@@ -7,8 +7,8 @@
     "signIn": "Sign in"
   },
   "footer": {
-    "runBy": "Run by the OpenExit Foundation — an independent non-profit.",
-    "licences": "Data © OpenExit contributors · ODbL 1.0 · Spec CC0 1.0 · Tools MIT",
+    "runBy": "Stewarded by its founder and maintainers — to be handed to the OpenExits Foundation, an independent non-profit currently being formed.",
+    "licences": "Data © OpenExits contributors · ODbL 1.0 · Spec CC0 1.0 · Tools MIT",
     "standard": "Standard",
     "specification": "Specification",
     "schema": "JSON Schema",
@@ -19,7 +19,7 @@
     "governance": "Governance",
     "language": "Language"
   },
-  "comingSoon": "Coming soon — this part of OpenExit is being built.",
+  "comingSoon": "Coming soon — this part of OpenExits is being built.",
   "panelHome": {
     "title": "Contribute",
     "addExit": "Add an exit",

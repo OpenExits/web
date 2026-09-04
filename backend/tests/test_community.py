@@ -3,8 +3,8 @@ from __future__ import annotations
 
 from datetime import datetime, timedelta, timezone
 
-from openexit_panel.db import session as db_session
-from openexit_panel.models import SiteConfirmation
+from openexits_panel.db import session as db_session
+from openexits_panel.models import SiteConfirmation
 
 SITE_ID = "01J9Y0AAAAAAAAAAAAAAAAAAAA"  # the seeded synthetic Héron site
 
@@ -30,7 +30,7 @@ def test_comment_thread_and_soft_delete(commons_app, contributor):
     with commons_app.app_context():  # ...but survives as a soft-deleted row
         db = db_session()
         try:
-            from openexit_panel.models import SiteComment
+            from openexits_panel.models import SiteComment
             row = db.get(SiteComment, cid)
             assert row is not None and row.deleted_at is not None
         finally:
@@ -59,7 +59,7 @@ def test_confirm_upserts_and_rolling_window(commons_app, contributor):
     with commons_app.app_context():
         db = db_session()
         try:
-            from openexit_panel.models import User
+            from openexits_panel.models import User
             ghost = User(handle="ghost", email="g@example.invalid", password_hash="x")
             db.add(ghost)
             db.flush()

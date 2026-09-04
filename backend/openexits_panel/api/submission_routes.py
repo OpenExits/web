@@ -11,7 +11,7 @@ from flask import Blueprint, current_app, g, jsonify, request, send_file
 from sqlalchemy import select
 from ulid import ULID
 
-from openexit_validator import validate_site
+from openexits_validator import validate_site
 
 from ..auth import require_auth, require_current_terms
 from ..db import session as db_session

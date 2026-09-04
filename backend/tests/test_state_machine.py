@@ -3,9 +3,9 @@ from __future__ import annotations
 
 import pytest
 
-from openexit_panel.db import session as db_session
-from openexit_panel.models import Submission, SubmissionEvent, TermsAcceptance, User
-from openexit_panel.services.state_machine import InvalidTransition, transition
+from openexits_panel.db import session as db_session
+from openexits_panel.models import Submission, SubmissionEvent, TermsAcceptance, User
+from openexits_panel.services.state_machine import InvalidTransition, transition
 
 
 @pytest.fixture()

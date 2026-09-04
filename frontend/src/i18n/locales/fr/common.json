@@ -7,8 +7,8 @@
     "signIn": "Connexion"
   },
   "footer": {
-    "runBy": "Porté par l'association OpenExit — une association indépendante à but non lucratif.",
-    "licences": "Données © contributeurs OpenExit · ODbL 1.0 · Spéc. CC0 1.0 · Outils MIT",
+    "runBy": "Porté par son fondateur et ses mainteneurs — destiné à être transmis à l'association OpenExits, une association indépendante à but non lucratif en cours de création.",
+    "licences": "Données © contributeurs OpenExits · ODbL 1.0 · Spéc. CC0 1.0 · Outils MIT",
     "standard": "Standard",
     "specification": "Spécification",
     "schema": "Schéma JSON",
@@ -19,7 +19,7 @@
     "governance": "Gouvernance",
     "language": "Langue"
   },
-  "comingSoon": "Bientôt disponible — cette partie d'OpenExit est en construction.",
+  "comingSoon": "Bientôt disponible — cette partie d'OpenExits est en construction.",
   "panelHome": {
     "title": "Contribuer",
     "addExit": "Ajouter un exit",

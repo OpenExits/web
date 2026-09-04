@@ -16,7 +16,7 @@ from pathlib import Path
 
 from sqlalchemy import select
 
-from openexit_validator.normalize import haversine_m
+from openexits_validator.normalize import haversine_m
 
 from ..models import Submission
 

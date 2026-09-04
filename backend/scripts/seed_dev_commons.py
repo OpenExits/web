@@ -5,8 +5,8 @@ sites on the map, so this creates var/dev-commons: a git-initialized commons
 tree filled with SYNTHETIC sites at invented coordinates, plus built
 artifacts. Point the backend at it:
 
-    $env:OPENEXIT_COMMONS_REPO = "<backend>/openexit_panel/var/dev-commons"
-    python -m flask --app openexit_panel.app:create_app run
+    $env:OPENEXITS_COMMONS_REPO = "<backend>/openexits_panel/var/dev-commons"
+    python -m flask --app openexits_panel.app:create_app run
 
 Re-running wipes and re-seeds. Everything here is invented; never add a real
 site to this script.
@@ -28,11 +28,11 @@ def _rmtree_git_safe(path: Path) -> None:
         func(p)
     shutil.rmtree(path, onexc=lambda f, p, e: _clear_ro(f, p, e))
 
-from openexit_validator import validate_file
-from openexit_validator.normalize import slugify, write_json
+from openexits_validator import validate_file
+from openexits_validator.normalize import slugify, write_json
 
 BACKEND = Path(__file__).resolve().parents[1]
-DEV_COMMONS = BACKEND / "openexit_panel" / "var" / "dev-commons"
+DEV_COMMONS = BACKEND / "openexits_panel" / "var" / "dev-commons"
 COMMONS_SCRIPTS = BACKEND.parents[1] / "commons" / "scripts"
 
 sys.path.insert(0, str(COMMONS_SCRIPTS))
@@ -136,11 +136,11 @@ def main() -> int:
     subprocess.run(["git", "-C", str(DEV_COMMONS), "add", "-A"], check=True)
     subprocess.run(
         ["git", "-C", str(DEV_COMMONS), "-c", "user.name=dev-seed",
-         "-c", "user.email=dev@openexit.invalid", "commit", "-q", "-m", "seed dev commons"],
+         "-c", "user.email=dev@openexits.invalid", "commit", "-q", "-m", "seed dev commons"],
         check=True,
     )
     print(f"seeded {len(SITES)} synthetic site(s) -> {DEV_COMMONS}")
-    print(f'set OPENEXIT_COMMONS_REPO to "{DEV_COMMONS}" and start the backend')
+    print(f'set OPENEXITS_COMMONS_REPO to "{DEV_COMMONS}" and start the backend')
     return 0
 
 

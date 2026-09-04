@@ -5,9 +5,9 @@ from logging.config import fileConfig
 from alembic import context
 from sqlalchemy import create_engine
 
-from openexit_panel.config import Config as PanelConfig
-from openexit_panel.db import Base
-from openexit_panel import models  # noqa: F401 — register all mappings
+from openexits_panel.config import Config as PanelConfig
+from openexits_panel.db import Base
+from openexits_panel import models  # noqa: F401 — register all mappings
 
 config = context.config
 if config.config_file_name is not None:

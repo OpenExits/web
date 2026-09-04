@@ -17,7 +17,7 @@ export type Locale = (typeof SUPPORTED_LOCALES)[number];
 
 function initialLocale(): Locale {
   try {
-    const saved = localStorage.getItem("openexit.locale");
+    const saved = localStorage.getItem("openexits.locale");
     if (saved === "en" || saved === "fr") return saved;
   } catch {
     /* storage unavailable */
@@ -39,7 +39,7 @@ i18n.use(initReactI18next).init({
 export function setLocale(locale: Locale) {
   i18n.changeLanguage(locale);
   try {
-    localStorage.setItem("openexit.locale", locale);
+    localStorage.setItem("openexits.locale", locale);
   } catch {
     /* storage unavailable */
   }

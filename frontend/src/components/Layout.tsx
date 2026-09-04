@@ -16,7 +16,7 @@ function Logo({ dark = false }: { dark?: boolean }) {
         />
         <circle cx="13" cy="4" r="2.6" fill="#e84e10" />
       </svg>
-      <span className="font-display text-xl tracking-wider">OPENEXIT</span>
+      <span className="font-display text-xl tracking-wider">OPENEXITS</span>
     </span>
   );
 }
@@ -75,7 +75,7 @@ export default function Layout() {
       <footer className="bg-granite px-6 py-12 text-[13px] text-ondark-muted lg:px-16">
         <div className="flex flex-col justify-between gap-10 md:flex-row">
           <div className="flex flex-col gap-2.5">
-            <span className="font-display text-base tracking-wider text-paper">OPENEXIT</span>
+            <span className="font-display text-base tracking-wider text-paper">OPENEXITS</span>
             <span>{t("footer.runBy")}</span>
             <span className="font-mono">{t("footer.licences")}</span>
           </div>

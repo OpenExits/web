@@ -5,8 +5,8 @@ from pathlib import Path
 
 import pytest
 
-from openexit_panel.app import create_app
-from openexit_panel.config import Config
+from openexits_panel.app import create_app
+from openexits_panel.config import Config
 
 COMMONS_SCRIPTS = Path(__file__).resolve().parents[3] / "commons" / "scripts"
 if str(COMMONS_SCRIPTS) not in sys.path:
@@ -24,7 +24,7 @@ class TestConfig(Config):
 def app():
     app = create_app(TestConfig, create_tables=True)
     # test-only probe endpoints (must be registered before the first request)
-    from openexit_panel.auth import require_auth, require_current_terms
+    from openexits_panel.auth import require_auth, require_current_terms
 
     @app.post("/api/v1/_test/needs-terms")
     @require_auth()
@@ -83,7 +83,7 @@ SYNTH_HERON = {
 def commons_repo(tmp_path):
     """A tmp commons with one published synthetic site + built artifacts."""
     from build_artifacts import build
-    from openexit_validator.normalize import write_json
+    from openexits_validator.normalize import write_json
 
     repo = tmp_path / "commons"
     write_json(repo / "sites" / "fr" / "pointe-du-heron.json", SYNTH_HERON)
@@ -93,7 +93,7 @@ def commons_repo(tmp_path):
 
 @pytest.fixture()
 def commons_app(tmp_path, commons_repo):
-    from openexit_panel.services import nearby
+    from openexits_panel.services import nearby
     nearby.invalidate()
 
     class Cfg(TestConfig):

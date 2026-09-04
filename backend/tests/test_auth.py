@@ -3,8 +3,8 @@ from __future__ import annotations
 
 from conftest import csrf_of, register
 
-from openexit_panel.db import session as db_session
-from openexit_panel.models import User
+from openexits_panel.db import session as db_session
+from openexits_panel.models import User
 
 
 def test_register_login_me_logout(client):

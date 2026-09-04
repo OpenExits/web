@@ -5,7 +5,7 @@ from __future__ import annotations
 
 from flask import Blueprint, current_app, g, jsonify, request
 
-from openexit_validator import validate_site
+from openexits_validator import validate_site
 
 from ..auth import require_auth
 from ..services import nearby

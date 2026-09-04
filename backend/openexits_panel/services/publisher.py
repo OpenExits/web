@@ -25,14 +25,14 @@ _SUBPROCESS_ENV = {**os.environ, "PYTHONDONTWRITEBYTECODE": "1", "PYTHONUTF8": "
 from filelock import FileLock, Timeout
 from sqlalchemy import select
 
-from openexit_validator.normalize import read_json, slugify, write_json
+from openexits_validator.normalize import read_json, slugify, write_json
 
 from ..models import MediaUpload, Submission, SubmissionEvent, User, utcnow
 from . import nearby
 from .state_machine import transition
 
-BOT_NAME = "OpenExit Bot"
-BOT_EMAIL = "bot@openexit.invalid"  # set the real address before hosting
+BOT_NAME = "OpenExits Bot"
+BOT_EMAIL = "bot@openexits.invalid"  # set the real address before hosting
 
 
 class PublishBusy(Exception):

@@ -10,7 +10,7 @@
     "title": "The same number, stored twice, in two units.",
     "body": "In a widely-used community dataset, whole field pairs carry the same physical quantity in metres and feet, under names that disclose neither the unit nor the meaning. A consumer that guesses wrong is off by a factor of 3.28 — on a number people use to choose a slider configuration. That is what happens to every schema that grows without a standard.",
     "codeCommentBad": "// which one is metres?",
-    "codeCommentGood": "// OpenExit — the unit is in the name"
+    "codeCommentGood": "// OpenExits — the unit is in the name"
   },
   "pillars": {
     "title": "Three pieces, one commons",
@@ -24,7 +24,7 @@
     },
     "foundation": {
       "title": "The foundation",
-      "body": "An independent non-profit — not a company, not an app — that owns the name and infrastructure for one purpose: keeping the standard and the data open, neutral, and alive."
+      "body": "OpenExits is stewarded today by its founder and a small group of maintainers, openly and under free licences. An independent non-profit — the OpenExits Foundation — is planned to take over the name and infrastructure once the project has proven useful, for one purpose: keeping the standard and the data open, neutral, and alive. The handover is already prepared for in the contributor terms, so it changes nothing for anyone contributing in the meantime."
     }
   },
   "locks": {

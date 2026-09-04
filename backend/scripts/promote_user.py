@@ -7,9 +7,9 @@ from __future__ import annotations
 
 import sys
 
-from openexit_panel.config import Config
-from openexit_panel.db import init_engine, session
-from openexit_panel.models import ROLES, User
+from openexits_panel.config import Config
+from openexits_panel.db import init_engine, session
+from openexits_panel.models import ROLES, User
 
 
 def main() -> int:

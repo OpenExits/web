@@ -14,7 +14,7 @@ import { SITES_GEOJSON_URL } from "../../lib/api";
 // OpenFreeMap/OSM credits are injected automatically by MapLibre from the
 // style; we add the data attribution ourselves.
 const STYLE_URL = "https://tiles.openfreemap.org/styles/liberty";
-const DATA_ATTRIBUTION = "© OpenExit contributors (ODbL)";
+const DATA_ATTRIBUTION = "© OpenExits contributors (ODbL)";
 
 export interface MapViewProps {
   onSiteClick?: (sitePath: string) => void;

@@ -44,7 +44,7 @@ def community(country: str, slug: str):
     site_path = current_app.config["COMMONS_REPO_PATH"] / "sites" / country / f"{slug}.json"
     if not site_path.exists():
         return jsonify({"error": "not_found"}), 404
-    from openexit_validator.normalize import read_json
+    from openexits_validator.normalize import read_json
     site_id = read_json(site_path).get("id")
     db = db_session()
     try:

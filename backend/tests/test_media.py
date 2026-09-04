@@ -74,7 +74,7 @@ def test_non_image_rejected(contributor):
 
 
 def test_oversize_rejected(contributor, monkeypatch):
-    from openexit_panel.services import media_store
+    from openexits_panel.services import media_store
     monkeypatch.setattr(media_store, "MAX_UPLOAD_BYTES", 1000)
     client, headers = contributor
     pid = _submission(client, headers)

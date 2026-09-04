@@ -12,9 +12,9 @@ from pathlib import Path
 import pytest
 
 from conftest import SYNTH_HERON, TestConfig, csrf_of, register, wizard_payload
-from openexit_panel.app import create_app
-from openexit_panel.db import session as db_session
-from openexit_panel.models import User
+from openexits_panel.app import create_app
+from openexits_panel.db import session as db_session
+from openexits_panel.models import User
 
 REAL_COMMONS = Path(__file__).resolve().parents[3] / "commons"
 
@@ -28,7 +28,7 @@ def _git(repo: Path, *args: str) -> str:
 def pub_commons(tmp_path):
     """A publishable commons: sites + the real ci/scripts toolchain + git."""
     from build_artifacts import build
-    from openexit_validator.normalize import write_json
+    from openexits_validator.normalize import write_json
 
     repo = tmp_path / "commons"
     write_json(repo / "sites" / "fr" / "pointe-du-heron.json", SYNTH_HERON)
@@ -47,7 +47,7 @@ def pub_commons(tmp_path):
 
 @pytest.fixture()
 def pub_app(tmp_path, pub_commons):
-    from openexit_panel.services import nearby
+    from openexits_panel.services import nearby
     nearby.invalidate()
 
     class Cfg(TestConfig):
@@ -153,7 +153,7 @@ def test_gate_failure_then_retry(pub_commons, actors):
     """A gate class the panel cannot pre-evaluate (sensitive zone added after
     submission) fails at publish, leaves the repo clean, and retry succeeds
     once the zone is lifted."""
-    from openexit_validator.normalize import write_json
+    from openexits_validator.normalize import write_json
 
     contributor, c_headers, moderator, m_headers = actors
     pid = _submit(contributor, c_headers)

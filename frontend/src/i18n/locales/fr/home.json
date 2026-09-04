@@ -10,7 +10,7 @@
     "title": "Le même nombre, stocké deux fois, dans deux unités.",
     "body": "Dans une base communautaire largement utilisée, des paires entières de champs portent la même grandeur physique en mètres et en pieds, sous des noms qui ne révèlent ni l'unité ni le sens. Se tromper, c'est être faux d'un facteur 3,28 — sur un nombre qui sert à choisir une configuration de slider. C'est ce qui arrive à tout schéma qui grandit sans standard.",
     "codeCommentBad": "// lequel est en mètres ?",
-    "codeCommentGood": "// OpenExit — l'unité est dans le nom"
+    "codeCommentGood": "// OpenExits — l'unité est dans le nom"
   },
   "pillars": {
     "title": "Trois briques, un commun",
@@ -24,7 +24,7 @@
     },
     "foundation": {
       "title": "L'association",
-      "body": "Une association indépendante à but non lucratif — ni une entreprise, ni une appli — qui détient le nom et l'infrastructure dans un seul but : garder le standard et les données ouverts, neutres et vivants."
+      "body": "OpenExits est porté aujourd'hui par son fondateur et un petit groupe de mainteneurs, à découvert et sous licences libres. Une association indépendante à but non lucratif est prévue pour reprendre le nom et l'infrastructure une fois le projet éprouvé, dans un seul but : garder le standard et les données ouverts, neutres et vivants. Cette transmission est déjà prévue dans les conditions de contribution : elle ne change rien pour ceux qui contribuent entre-temps."
     }
   },
   "locks": {

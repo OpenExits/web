@@ -124,7 +124,7 @@ class MediaUpload(Base):
 class SiteComment(Base):
     __tablename__ = "site_comments"
     id: Mapped[int] = mapped_column(Integer, primary_key=True)
-    site_id: Mapped[str] = mapped_column(Text)                  # OpenExit site id (ULID)
+    site_id: Mapped[str] = mapped_column(Text)                  # OpenExits site id (ULID)
     user_id: Mapped[int] = mapped_column(ForeignKey("users.id"))
     body: Mapped[str] = mapped_column(Text)
     created_at: Mapped[str] = mapped_column(Text, default=utcnow)

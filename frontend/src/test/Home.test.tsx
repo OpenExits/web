@@ -40,6 +40,6 @@ describe("Home", () => {
     await act(async () => {
       setLocale("fr");
     });
-    expect(localStorage.getItem("openexit.locale")).toBe("fr");
+    expect(localStorage.getItem("openexits.locale")).toBe("fr");
   });
 });

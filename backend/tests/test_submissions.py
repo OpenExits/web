@@ -3,9 +3,9 @@ from __future__ import annotations
 
 from conftest import wizard_payload
 
-from openexit_panel.db import session as db_session
-from openexit_panel.models import Submission, User
-from openexit_panel.services.state_machine import transition
+from openexits_panel.db import session as db_session
+from openexits_panel.models import Submission, User
+from openexits_panel.services.state_machine import transition
 
 
 def test_dry_run_validate(contributor):

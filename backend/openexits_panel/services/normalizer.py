@@ -1,4 +1,4 @@
-"""Wizard payload -> standard OpenExit site JSON. THE one place this
+"""Wizard payload -> standard OpenExits site JSON. THE one place this
 translation exists — the wizard preview, instant validation, moderator
 edit-then-approve and the publisher all call normalize().
 
@@ -28,7 +28,7 @@ from datetime import datetime, timezone
 
 from ulid import ULID
 
-from openexit_validator.normalize import read_json
+from openexits_validator.normalize import read_json
 
 GUIDE_SECTIONS = (
     "access", "approach", "ledgeAndGearUp", "gear", "landing",

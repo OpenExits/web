@@ -68,7 +68,7 @@ export function payloadFromSite(doc: SiteDocument, path: string): WizardPayload 
   };
 }
 
-const DRAFT_KEY = "openexit.wizard.draft";
+const DRAFT_KEY = "openexits.wizard.draft";
 
 export function loadDraft(): WizardPayload | null {
   try {
