@@ -28,7 +28,7 @@
     "reject": "Reject",
     "messagePrompt": "Message to the contributor",
     "reasonPrompt": "Reason (sent to the contributor)",
-    "publishOk": "Published: {{site}} ({{sha}})",
+    "publishOk": "Published: {{object}} ({{sha}})",
     "publishFailed": "Publish failed — the gate report is below. Fix and retry.",
     "retry": "Retry publish",
     "reply": "Reply to the contributor…",
@@ -41,5 +41,5 @@
     "by": "reported by {{handle}}"
   },
   "forbidden": "Moderator access required.",
-  "scope": "Conformance check, not verification: confirm the record follows the standard, is coherent, is offered in good faith, and is not a sensitive site. You are not confirming it is safe, that the measurements are right, or that anyone should jump it. Nobody checks these records against reality — that is the jumper's own job."
+  "scope": "Conformance check, not verification: confirm the record follows the standard, is coherent, is offered in good faith, and is not a sensitive object. You are not confirming it is safe, that the measurements are right, or that anyone should jump it. Nobody checks these records against reality — that is the jumper's own job."
 }

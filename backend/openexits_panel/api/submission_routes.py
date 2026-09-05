@@ -11,7 +11,7 @@ from flask import Blueprint, current_app, g, jsonify, request, send_file
 from sqlalchemy import select
 from ulid import ULID
 
-from openexits_validator import validate_site
+from openexits_validator import validate_object
 
 from ..auth import require_auth, require_current_terms
 from ..db import session as db_session
@@ -33,11 +33,11 @@ def _summary(sub: Submission) -> dict:
         "public_id": sub.public_id,
         "kind": sub.kind,
         "status": sub.status,
-        "site_name": doc.get("name"),
-        "target_site_id": sub.target_site_id,
+        "object_name": doc.get("name"),
+        "target_object_id": sub.target_object_id,
         "created_at": sub.created_at,
         "updated_at": sub.updated_at,
-        "published_site_id": sub.published_site_id,
+        "published_object_id": sub.published_object_id,
     }
 
 
@@ -80,7 +80,7 @@ def _machine_flags(payload: dict, doc: dict, report, hits: list[dict]) -> dict:
         "validator": report_payload(report),
         "nearby_hits": hits,
         "duplicate_override": bool(payload.get("duplicateOverride")),
-        "no_landing": payload.get("kind") == "new_site"
+        "no_landing": payload.get("kind") == "new_object"
                       and not any(f.get("role") == "landing" for f in features),
     }
 
@@ -92,16 +92,16 @@ def _validate_and_flag(payload: dict):
         doc = normalize(payload, contributor_handle=g.user.handle, commons_repo=commons)
     except NormalizeError as exc:
         return None, (jsonify({"error": exc.key}), 422)
-    report = validate_site(doc)
+    report = validate_object(doc)
     if not report.ok:
         return None, (jsonify({"error": "validation_failed",
                                "report": report_payload(report)}), 422)
     hits: list[dict] = []
-    if payload.get("kind") == "new_site":
+    if payload.get("kind") == "new_object":
         exit_feat = next((f for f in doc["features"] if f.get("role") == "exit"),
                          doc["features"][0])
         pos = exit_feat["position"]
-        hits = nearby.sites_near(commons, g.db, pos["lat"], pos["lon"])
+        hits = nearby.objects_near(commons, g.db, pos["lat"], pos["lon"])
         too_close = [h for h in hits if h["distance_m"] < nearby.GATE_RADIUS_M]
         if too_close:
             return None, (jsonify({"error": "duplicate.too_close",
@@ -123,7 +123,7 @@ def create_submission():
         public_id=str(ULID()),
         user_id=g.user.id,
         kind=payload["kind"],
-        target_site_id=payload.get("targetSitePath"),
+        target_object_id=payload.get("targetObjectPath"),
         payload_json=json.dumps(payload, ensure_ascii=False, sort_keys=True),
         normalized_json=json.dumps(doc, ensure_ascii=False, sort_keys=True),
         machine_flags_json=json.dumps(flags, ensure_ascii=False, sort_keys=True),

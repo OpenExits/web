@@ -17,7 +17,7 @@ if HAVE_COMMONS:
     from build_artifacts import build  # noqa: E402
 from openexits_validator.normalize import write_json  # noqa: E402
 
-SYNTH_SITE = {
+SYNTH_OBJECT = {
     "schemaVersion": "2.0",
     "id": "01J9W0AAAAAAAAAAAAAAAAAAAA",
     "name": "Falaise du Test Public",
@@ -25,6 +25,7 @@ SYNTH_SITE = {
     "status": "open",
     "access": "unknown",
     "sensitivity": "public",
+    "objectType": "earth",
     "provenance": [{"source": "panel", "contributor": "t", "contributedAt": "2026-08-27",
                     "licence": "ODbL-1.0"}],
     "updatedAt": "2026-08-27T09:00:00Z",
@@ -40,7 +41,7 @@ SYNTH_SITE = {
 @pytest.fixture()
 def commons_client(tmp_path):
     repo = tmp_path / "commons"
-    write_json(repo / "sites" / "fr" / "falaise-du-test-public.json", SYNTH_SITE)
+    write_json(repo / "objects" / "fr" / "falaise-du-test-public.json", SYNTH_OBJECT)
     build(repo, repo / "build")
 
     class Cfg(TestConfig):
@@ -51,30 +52,30 @@ def commons_client(tmp_path):
 
 
 def test_geojson_served_with_etag_and_304(commons_client):
-    r = commons_client.get("/api/v1/public/data/sites.geojson")
+    r = commons_client.get("/api/v1/public/data/objects.geojson")
     assert r.status_code == 200
     assert r.mimetype == "application/geo+json"
     body = r.get_json(force=True)
     assert body["features"][0]["properties"]["name"] == "Falaise du Test Public"
     assert body["features"][0]["geometry"]["coordinates"][0] == pytest.approx(6.312345)
     etag = r.headers["ETag"]
-    r304 = commons_client.get("/api/v1/public/data/sites.geojson",
+    r304 = commons_client.get("/api/v1/public/data/objects.geojson",
                               headers={"If-None-Match": etag})
     assert r304.status_code == 304
 
 
 def test_build_whitelist(commons_client):
     assert commons_client.get("/api/v1/public/data/secrets.txt").status_code == 404
-    assert commons_client.get("/api/v1/public/data/../sites/fr/x.json").status_code == 404
+    assert commons_client.get("/api/v1/public/data/../objects/fr/x.json").status_code == 404
 
 
-def test_site_document_and_traversal_guard(commons_client):
-    r = commons_client.get("/api/v1/public/sites/fr/falaise-du-test-public")
+def test_object_document_and_traversal_guard(commons_client):
+    r = commons_client.get("/api/v1/public/objects/fr/falaise-du-test-public")
     assert r.status_code == 200
     assert r.get_json(force=True)["name"] == "Falaise du Test Public"
-    assert commons_client.get("/api/v1/public/sites/fr/none-such").status_code == 404
-    assert commons_client.get("/api/v1/public/sites/FR/Falaise").status_code == 404
-    assert commons_client.get("/api/v1/public/sites/fr/..%2f..%2fci%2fgates-config").status_code == 404
+    assert commons_client.get("/api/v1/public/objects/fr/none-such").status_code == 404
+    assert commons_client.get("/api/v1/public/objects/FR/Falaise").status_code == 404
+    assert commons_client.get("/api/v1/public/objects/fr/..%2f..%2fci%2fgates-config").status_code == 404
 
 
 def test_missing_build_reports_no_data(tmp_path):
@@ -82,6 +83,6 @@ def test_missing_build_reports_no_data(tmp_path):
         COMMONS_REPO_PATH = tmp_path / "empty-commons"
 
     app = create_app(Cfg, create_tables=True)
-    r = app.test_client().get("/api/v1/public/data/sites.geojson")
+    r = app.test_client().get("/api/v1/public/data/objects.geojson")
     assert r.status_code == 404
     assert r.get_json()["error"] == "no_data_yet"

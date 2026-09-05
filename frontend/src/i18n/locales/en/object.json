@@ -44,8 +44,8 @@
     "suggestChange": "Suggest a change",
     "fullGuide": "Full guide",
     "contributedBy": "Contributed by",
-    "loading": "Loading site…",
-    "error": "Could not load this site."
+    "loading": "Loading object…",
+    "error": "Could not load this object."
   },
   "community": {
     "lastConfirmed": "Last confirmed {{date}}",
@@ -63,13 +63,13 @@
       "measurement": "A measurement is wrong or outdated",
       "access_status": "Access or status changed",
       "landing": "Landing info is wrong",
-      "sensitive": "This site should not be listed",
+      "sensitive": "This object should not be listed",
       "other": "Something else"
     },
     "discussion": "Discussion",
     "messages": "{{count}} message(s)",
-    "composerHint": "Open discussion about this site. Learned something concrete? Use “Suggest a change” so it enters the database.",
-    "composerWarning": "Public and permanent — never post access beta for sensitive sites.",
+    "composerHint": "Open discussion about this object. Learned something concrete? Use “Suggest a change” so it enters the database.",
+    "composerWarning": "Public and permanent — never post access beta for sensitive objects.",
     "post": "Post",
     "delete": "Delete",
     "signInToPost": "Sign in to join the discussion"

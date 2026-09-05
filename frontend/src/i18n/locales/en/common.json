@@ -50,8 +50,8 @@
   },
   "panelUnavailable": {
     "title": "Contribution isn't open yet",
-    "body": "The submission panel isn't live. OpenExits is published and the standard is finished, but the service that accepts new exit sites and puts them through human review hasn't been deployed yet.",
-    "meanwhile": "The specification, the validator and the commons are all public and usable today. If you want to contribute a site now, the repository accepts it directly.",
+    "body": "The submission panel isn't live. OpenExits is published and the standard is finished, but the service that accepts new objects and exits and puts them through human review hasn't been deployed yet.",
+    "meanwhile": "The specification, the validator and the commons are all public and usable today. If you want to contribute an object now, the repository accepts it directly.",
     "contributing": "How to contribute",
     "github": "Browse the repositories"
   }

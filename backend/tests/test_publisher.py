@@ -31,14 +31,14 @@ def _git(repo: Path, *args: str) -> str:
 
 @pytest.fixture()
 def pub_commons(tmp_path):
-    """A publishable commons: sites + the real ci/scripts toolchain + git."""
+    """A publishable commons: objects + the real ci/scripts toolchain + git."""
     if not HAVE_COMMONS:
         pytest.skip(requires_commons.kwargs["reason"])
     from build_artifacts import build
     from openexits_validator.normalize import write_json
 
     repo = tmp_path / "commons"
-    write_json(repo / "sites" / "fr" / "pointe-du-heron.json", SYNTH_HERON)
+    write_json(repo / "objects" / "fr" / "pointe-du-heron.json", SYNTH_HERON)
     for sub in ("ci", "scripts"):
         shutil.copytree(REAL_COMMONS / sub, repo / sub,
                         ignore=shutil.ignore_patterns("__pycache__"))
@@ -93,7 +93,7 @@ def _submit(contributor, c_headers, **kw) -> str:
     return r.get_json()["submission"]["public_id"]
 
 
-def test_full_pipeline_new_site(pub_commons, actors):
+def test_full_pipeline_new_object(pub_commons, actors):
     contributor, c_headers, moderator, m_headers = actors
     pid = _submit(contributor, c_headers, with_landing=True)
 
@@ -105,12 +105,14 @@ def test_full_pipeline_new_site(pub_commons, actors):
     result = r.get_json()
     assert result["publish"]["ok"] is True
     assert result["submission"]["status"] == "published"
-    site_path = result["publish"]["site"]
-    assert site_path == "fr/falaise-nouvelle"
+    object_path = result["publish"]["object"]
+    assert object_path == "fr/falaise-nouvelle"
 
     # the file exists at HEAD with BOT-stamped provenance (standard names)
-    site_file = pub_commons / "sites" / "fr" / "falaise-nouvelle.json"
-    doc = json.loads(site_file.read_text(encoding="utf-8"))
+    object_file = pub_commons / "objects" / "fr" / "falaise-nouvelle.json"
+    doc = json.loads(object_file.read_text(encoding="utf-8"))
+    assert doc["objectType"] == "earth"  # object-level, not per exit
+    assert "objectType" not in doc["features"][0]
     prov = doc["provenance"]
     assert len(prov) == 1
     assert prov[0]["source"] == "panel"
@@ -125,12 +127,12 @@ def test_full_pipeline_new_site(pub_commons, actors):
     assert sha in log
     body = _git(pub_commons, "log", "--format=%B", "-1", f"{sha}^2")
     assert f"Submission: {pid}" in body and "Reviewed-by: mod_marie" in body
-    sites_geojson = (pub_commons / "build" / "sites.geojson").read_text(encoding="utf-8")
-    assert "Falaise Nouvelle" in sites_geojson
+    objects_geojson = (pub_commons / "build" / "objects.geojson").read_text(encoding="utf-8")
+    assert "Falaise Nouvelle" in objects_geojson
     assert _git(pub_commons, "status", "--porcelain").strip() == ""
 
-    # ...and the new site is immediately visible to the nearby index
-    near = contributor.get("/api/v1/sites/nearby?lat=45.7123&lon=6.3123",
+    # ...and the new object is immediately visible to the nearby index
+    near = contributor.get("/api/v1/objects/nearby?lat=45.7123&lon=6.3123",
                            headers=c_headers).get_json()["hits"]
     assert any(h["name"] == "Falaise Nouvelle" and not h["pending"] for h in near)
 
@@ -138,8 +140,8 @@ def test_full_pipeline_new_site(pub_commons, actors):
 def test_correction_appends_provenance(pub_commons, actors):
     contributor, c_headers, moderator, m_headers = actors
     payload = wizard_payload(kind="correction")
-    payload["targetSitePath"] = "fr/pointe-du-heron"
-    payload["site"] = {"access": "legal"}
+    payload["targetObjectPath"] = "fr/pointe-du-heron"
+    payload["object"] = {"access": "legal"}
     payload["features"] = []
     r = contributor.post("/api/v1/submissions", headers=c_headers, json=payload)
     pid = r.get_json()["submission"]["public_id"]
@@ -147,7 +149,7 @@ def test_correction_appends_provenance(pub_commons, actors):
     ok = moderator.post(f"/api/v1/moderation/submissions/{pid}/approve", headers=m_headers)
     assert ok.status_code == 200, ok.get_json()
 
-    doc = json.loads((pub_commons / "sites" / "fr" / "pointe-du-heron.json")
+    doc = json.loads((pub_commons / "objects" / "fr" / "pointe-du-heron.json")
                      .read_text(encoding="utf-8"))
     assert doc["access"] == "legal"
     assert len(doc["provenance"]) == 2
@@ -178,8 +180,8 @@ def test_gate_failure_then_retry(pub_commons, actors):
     body = r.get_json()
     assert body["submission"]["status"] == "publish_failed"
     assert "OE-SENSITIVE" in body["publish"]["report"]
-    # nothing half-landed: tree clean, no site file, no leftover branch
-    assert not (pub_commons / "sites" / "fr" / "falaise-nouvelle.json").exists()
+    # nothing half-landed: tree clean, no object file, no leftover branch
+    assert not (pub_commons / "objects" / "fr" / "falaise-nouvelle.json").exists()
     assert _git(pub_commons, "status", "--porcelain").strip() == ""
     assert f"sub/{pid}" not in _git(pub_commons, "branch", "--list")
 
@@ -199,17 +201,17 @@ def test_edit_then_approve(pub_commons, actors):
     pid = _submit(contributor, c_headers)
 
     edited = wizard_payload(with_landing=True)
-    edited["site"]["name"] = "Falaise Corrigée Par Mod"
+    edited["object"]["name"] = "Falaise Corrigée Par Mod"
     r = moderator.put(f"/api/v1/moderation/submissions/{pid}/fields",
                       headers=m_headers, json=edited)
     assert r.status_code == 200
     ok = moderator.post(f"/api/v1/moderation/submissions/{pid}/approve", headers=m_headers)
     assert ok.status_code == 200
-    assert ok.get_json()["publish"]["site"] == "fr/falaise-corrigee-par-mod"
+    assert ok.get_json()["publish"]["object"] == "fr/falaise-corrigee-par-mod"
     detail = moderator.get(f"/api/v1/moderation/submissions/{pid}",
                            headers=m_headers).get_json()["submission"]
-    assert detail["payload"]["site"]["name"] == "Falaise Nouvelle"   # original preserved
-    assert detail["moderator_payload"]["site"]["name"] == "Falaise Corrigée Par Mod"
+    assert detail["payload"]["object"]["name"] == "Falaise Nouvelle"   # original preserved
+    assert detail["moderator_payload"]["object"]["name"] == "Falaise Corrigée Par Mod"
 
 
 def test_reject_and_request_changes_and_reports(pub_app, actors):
@@ -225,9 +227,9 @@ def test_reject_and_request_changes_and_reports(pub_app, actors):
     assert rj.get_json()["submission"]["status"] == "rejected"
 
     # reports lane: sensitive pinned first, triage closes it
-    contributor.post("/api/v1/sites/01J9Y0AAAAAAAAAAAAAAAAAAAA/report",
+    contributor.post("/api/v1/objects/01J9Y0AAAAAAAAAAAAAAAAAAAA/report",
                      headers=c_headers, json={"category": "other", "body": "x"})
-    contributor.post("/api/v1/sites/01J9Y0AAAAAAAAAAAAAAAAAAAA/report",
+    contributor.post("/api/v1/objects/01J9Y0AAAAAAAAAAAAAAAAAAAA/report",
                      headers=c_headers, json={"category": "sensitive", "body": "y"})
     lane = moderator.get("/api/v1/moderation/reports", headers=m_headers).get_json()["reports"]
     assert lane[0]["category"] == "sensitive"

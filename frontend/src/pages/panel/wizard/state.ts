@@ -1,6 +1,6 @@
 // Wizard payload — mirrors the backend normalizer contract, plus draft
 // persistence to localStorage so an interrupted phone session survives.
-import type { SiteDocument } from "../../../lib/api";
+import type { ObjectDocument } from "../../../lib/api";
 
 export interface WizardFeature {
   role: "exit" | "landing" | "parking" | "gearup" | "trailhead";
@@ -10,7 +10,6 @@ export interface WizardFeature {
   elevationM?: number;
   positionSource: "gps" | "map";
   precisionM?: number;
-  objectType?: string;
   suitability?: Record<string, boolean>;
   exitDirectionDeg?: number;
   approachTimeMin?: number;
@@ -19,11 +18,12 @@ export interface WizardFeature {
 }
 
 export interface WizardPayload {
-  kind: "new_site" | "new_feature" | "correction";
-  targetSitePath?: string;
-  site: {
+  kind: "new_object" | "new_feature" | "correction";
+  targetObjectPath?: string;
+  object: {
     name?: string;
     country?: string;
+    objectType?: string;
     status?: string;
     access?: string;
     region?: string;
@@ -35,16 +35,17 @@ export interface WizardPayload {
 }
 
 export function emptyPayload(): WizardPayload {
-  return { kind: "new_site", site: {}, features: [] };
+  return { kind: "new_object", object: {}, features: [] };
 }
 
-export function payloadFromSite(doc: SiteDocument, path: string): WizardPayload {
+export function payloadFromObject(doc: ObjectDocument, path: string): WizardPayload {
   return {
     kind: "correction",
-    targetSitePath: path,
-    site: {
+    targetObjectPath: path,
+    object: {
       name: doc.name,
       country: doc.country,
+      objectType: doc.objectType,
       status: doc.status,
       access: doc.access,
       region: doc.region,
@@ -58,7 +59,6 @@ export function payloadFromSite(doc: SiteDocument, path: string): WizardPayload 
       elevationM: f.position.elevationM,
       positionSource: "map",
       precisionM: f.position.precisionM,
-      objectType: f.objectType,
       suitability: f.suitability,
       exitDirectionDeg: f.exitDirectionDeg,
       approachTimeMin: f.approachTimeMin,
@@ -68,7 +68,9 @@ export function payloadFromSite(doc: SiteDocument, path: string): WizardPayload 
   };
 }
 
-const DRAFT_KEY = "openexits.wizard.draft";
+// v2: the payload shape changed (site -> object, objectType on the object);
+// a new key discards drafts saved under the old shape instead of mis-reading them.
+const DRAFT_KEY = "openexits.wizard.draft.v2";
 
 export function loadDraft(): WizardPayload | null {
   try {

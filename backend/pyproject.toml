@@ -20,7 +20,7 @@ dependencies = [
     # the panel validates submissions with the same validator version CI will gate them
     # with, so the panel cannot accept something CI would then reject.
     # Local development overrides this with: pip install -e ../../specification/tools
-    "openexits-validator @ git+https://github.com/OpenExits/specification@v2.0.1#subdirectory=tools",
+    "openexits-validator @ git+https://github.com/OpenExits/specification@v2.0.2#subdirectory=tools",
 ]
 
 [project.optional-dependencies]

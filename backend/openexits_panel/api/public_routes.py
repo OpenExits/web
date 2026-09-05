@@ -14,10 +14,10 @@ from flask import Blueprint, Response, current_app, jsonify, request, send_file
 bp = Blueprint("public", __name__, url_prefix="/api/v1/public")
 
 BUILD_FILES = {
-    "sites.geojson": "application/geo+json",
+    "objects.geojson": "application/geo+json",
     "features.geojson": "application/geo+json",
     "routes.geojson": "application/geo+json",
-    "sites.csv": "text/csv",
+    "objects.csv": "text/csv",
     "media-index.json": "application/json",
 }
 
@@ -55,11 +55,11 @@ def build_artifact(name: str):
     return _with_etag(path, mimetype)
 
 
-@bp.get("/sites/<country>/<slug>")
-def site_document(country: str, slug: str):
+@bp.get("/objects/<country>/<slug>")
+def object_document(country: str, slug: str):
     if not (SEGMENT_RE.match(country) and SEGMENT_RE.match(slug)):
         return jsonify({"error": "not_found"}), 404
-    path = _commons() / "sites" / country / f"{slug}.json"
+    path = _commons() / "objects" / country / f"{slug}.json"
     if not path.exists():
         return jsonify({"error": "not_found"}), 404
     return _with_etag(path, "application/json")

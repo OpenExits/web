@@ -64,21 +64,21 @@ def _stamped_provenance_entry(sub: Submission, contributor: str, reviewed_by: st
     }
 
 
-def _site_relpath(doc: dict, sub: Submission) -> str:
-    if sub.kind in ("new_feature", "correction") and sub.target_site_id:
-        return f"sites/{sub.target_site_id}.json"
-    return f"sites/{doc['country'].lower()}/{slugify(doc['name'])}.json"
+def _object_relpath(doc: dict, sub: Submission) -> str:
+    if sub.kind in ("new_feature", "correction") and sub.target_object_id:
+        return f"objects/{sub.target_object_id}.json"
+    return f"objects/{doc['country'].lower()}/{slugify(doc['name'])}.json"
 
 
 def _materialize(db, repo: Path, sub: Submission, doc: dict,
                  contributor: str, reviewed_by: str) -> str:
     """Stamp provenance + media refs, write the canonical file. Returns relpath."""
     stamped = _stamped_provenance_entry(sub, contributor, reviewed_by)
-    relpath = _site_relpath(doc, sub)
+    relpath = _object_relpath(doc, sub)
     target = repo / relpath
-    if sub.kind == "new_site":
+    if sub.kind == "new_object":
         if target.exists():
-            raise PublishError("slug_collision", f"{relpath} already exists — rename the site")
+            raise PublishError("slug_collision", f"{relpath} already exists — rename the object")
         doc["provenance"] = [stamped]
     else:
         if not target.exists():
@@ -160,10 +160,10 @@ def publish(db, sub: Submission, *, commons_repo: Path, lock_path: Path,
                 raise PublishError("gates_failed", report[-3000:])
 
             # 5. commit with trailers
-            verb = "add" if sub.kind == "new_site" else "update"
-            site_path = relpath.removeprefix("sites/").removesuffix(".json")
+            verb = "add" if sub.kind == "new_object" else "update"
+            object_path = relpath.removeprefix("objects/").removesuffix(".json")
             message = (
-                f"site: {verb} {site_path}\n\n"
+                f"object: {verb} {object_path}\n\n"
                 f"Submission: {sub.public_id}\n"
                 f"Contributor: {contributor}\n"
                 f"Reviewed-by: {reviewed_by}\n"
@@ -175,7 +175,7 @@ def publish(db, sub: Submission, *, commons_repo: Path, lock_path: Path,
             # 6. merge --no-ff: one merge commit per submission
             _git(commons_repo, "checkout", "-q", base)
             _git(commons_repo, "merge", "-q", "--no-ff", "-m",
-                 f"merge: {verb} {site_path} ({sub.public_id})", branch)
+                 f"merge: {verb} {object_path} ({sub.public_id})", branch)
             merge_sha = _git(commons_repo, "rev-parse", "HEAD").stdout.strip()
             _git(commons_repo, "branch", "-q", "-d", branch)
         except PublishError:
@@ -202,15 +202,15 @@ def publish(db, sub: Submission, *, commons_repo: Path, lock_path: Path,
         # 8. record
         transition(db, sub, "published", as_role="system")
         sub.published_commit_sha = merge_sha
-        sub.published_site_id = site_path
+        sub.published_object_id = object_path
         sub.published_at = utcnow()
         for m in db.execute(select(MediaUpload)
                             .where(MediaUpload.submission_id == sub.id)).scalars():
             m.published = True
-        _event(db, sub, "published", {"sha": merge_sha, "path": site_path})
+        _event(db, sub, "published", {"sha": merge_sha, "path": object_path})
         db.commit()
         nearby.invalidate()
-        return {"ok": True, "sha": merge_sha, "site": site_path}
+        return {"ok": True, "sha": merge_sha, "object": object_path}
 
     except PublishError as exc:
         transition(db, sub, "publish_failed", as_role="system",
@@ -227,7 +227,7 @@ def _abort(repo: Path, base: str, branch: str) -> None:
                    capture_output=True)
     subprocess.run(["git", "-C", str(repo), "branch", "-q", "-D", branch],
                    capture_output=True)
-    subprocess.run(["git", "-C", str(repo), "clean", "-qfd", "sites", "routes"],
+    subprocess.run(["git", "-C", str(repo), "clean", "-qfd", "objects", "routes"],
                    capture_output=True)
 
 

@@ -8,8 +8,8 @@ interface QueueRow {
   public_id: string;
   kind: string;
   status: string;
-  site_name: string | null;
-  target_site_id: string | null;
+  object_name: string | null;
+  target_object_id: string | null;
   created_at: string;
   contributor: string;
   contributor_published: number;
@@ -18,7 +18,7 @@ interface QueueRow {
 
 interface Report {
   id: number;
-  site_id: string;
+  object_id: string;
   category: string;
   body: string | null;
   reporter: string;
@@ -41,7 +41,7 @@ interface Detail {
 const chip = "rounded px-2 py-0.5 text-[11px] font-bold";
 
 export default function Moderation() {
-  const { t } = useTranslation(["moderation", "site"]);
+  const { t } = useTranslation(["moderation", "object"]);
   const { user, api } = useAuth();
   const [lane, setLane] = useState<Lane>("pending");
   const [rows, setRows] = useState<QueueRow[]>([]);
@@ -103,7 +103,7 @@ export default function Moderation() {
     setBusy(false);
     if (resp.publish) {
       if (resp.publish.ok) {
-        setNotice(t("moderation:detail.publishOk", { site: resp.publish.site, sha: resp.publish.sha?.slice(0, 10) }));
+        setNotice(t("moderation:detail.publishOk", { object: resp.publish.object, sha: resp.publish.sha?.slice(0, 10) }));
       } else {
         setNotice(t("moderation:detail.publishFailed"));
         setGateReport(resp.publish.report ?? resp.publish.key);
@@ -154,12 +154,12 @@ export default function Moderation() {
             <div key={r.id} className="flex items-center justify-between gap-3 rounded-md border border-line bg-white px-4 py-3">
               <div className="flex flex-col gap-0.5">
                 <span className={`self-start ${chip} ${r.category === "sensitive" ? "bg-[#fbe4e2] text-[#8f231d]" : "bg-[#eee9db] text-warntext"}`}>
-                  {t(`site:community.categories.${r.category}`)}
+                  {t(`object:community.categories.${r.category}`)}
                 </span>
                 <span className="text-sm">{r.body ?? "—"}</span>
                 <span className="text-xs text-faint">
                   {t("moderation:reports.by", { handle: r.reporter })} · {r.created_at.slice(0, 10)} ·{" "}
-                  <span className="font-mono">{r.site_id.slice(0, 10)}…</span>
+                  <span className="font-mono">{r.object_id.slice(0, 10)}…</span>
                 </span>
               </div>
               <div className="flex gap-2">
@@ -184,7 +184,7 @@ export default function Moderation() {
               >
                 <span className="flex flex-col gap-1">
                   <span className="text-[15px] font-bold">
-                    {row.site_name ?? row.target_site_id}
+                    {row.object_name ?? row.target_object_id}
                     <span className="ml-2 rounded bg-ink px-2 py-0.5 text-[10px] font-bold text-paper">
                       {row.kind.replace("_", " ").toUpperCase()}
                     </span>

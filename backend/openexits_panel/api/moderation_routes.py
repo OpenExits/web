@@ -11,11 +11,11 @@ import json
 from flask import Blueprint, current_app, g, jsonify, request
 from sqlalchemy import select
 
-from openexits_validator import validate_site
+from openexits_validator import validate_object
 
 from ..auth import require_auth
 from ..models import (
-    SiteReport, Submission, SubmissionEvent, SubmissionMessage, User, utcnow,
+    ObjectReport, Submission, SubmissionEvent, SubmissionMessage, User, utcnow,
 )
 from ..services.normalizer import NormalizeError, normalize
 from ..services.publisher import PublishBusy, publish
@@ -94,7 +94,7 @@ def edit_fields(public_id: str):
                         commons_repo=current_app.config["COMMONS_REPO_PATH"])
     except NormalizeError as exc:
         return jsonify({"error": exc.key}), 422
-    report = validate_site(doc)
+    report = validate_object(doc)
     if not report.ok:
         return jsonify({"error": "validation_failed", "report": report_payload(report)}), 422
     before = sub.moderator_payload_json or sub.payload_json
@@ -123,7 +123,7 @@ def edit_normalized(public_id: str):
     doc = request.get_json(silent=True)
     if not isinstance(doc, dict):
         return jsonify({"error": "moderation.not_a_document"}), 422
-    report = validate_site(doc)
+    report = validate_object(doc)
     if not report.ok:
         return jsonify({"error": "validation_failed", "report": report_payload(report)}), 422
     sub.normalized_json = json.dumps(doc, ensure_ascii=False, sort_keys=True)
@@ -225,16 +225,16 @@ def retry_publish(public_id: str):
 def reports():
     status = request.args.get("status", "open")
     rows = g.db.execute(
-        select(SiteReport, User.handle)
-        .join(User, User.id == SiteReport.user_id)
-        .where(SiteReport.status == status)
+        select(ObjectReport, User.handle)
+        .join(User, User.id == ObjectReport.user_id)
+        .where(ObjectReport.status == status)
         .order_by(
-            (SiteReport.category != "sensitive"),  # sensitive pinned first
-            SiteReport.created_at,
+            (ObjectReport.category != "sensitive"),  # sensitive pinned first
+            ObjectReport.created_at,
         )
     ).all()
     return jsonify({"reports": [
-        {"id": r.id, "site_id": r.site_id, "category": r.category, "body": r.body,
+        {"id": r.id, "object_id": r.object_id, "category": r.category, "body": r.body,
          "status": r.status, "reporter": handle, "created_at": r.created_at}
         for r, handle in rows
     ]})
@@ -245,7 +245,7 @@ def reports():
 def triage_report(report_id: int, action: str):
     if action not in ("resolve", "dismiss"):
         return jsonify({"error": "not_found"}), 404
-    report = g.db.get(SiteReport, report_id)
+    report = g.db.get(ObjectReport, report_id)
     if report is None or report.status != "open":
         return jsonify({"error": "not_found"}), 404
     report.status = "resolved" if action == "resolve" else "dismissed"

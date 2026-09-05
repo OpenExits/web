@@ -1,6 +1,6 @@
 import { Link } from "react-router";
 import { useTranslation } from "react-i18next";
-import type { MeasurementValue, SiteDocument } from "../lib/api";
+import type { MeasurementValue, ObjectDocument } from "../lib/api";
 import CommunitySection from "./CommunitySection";
 
 const SUITABILITY_ORDER = ["slick", "sliderOff", "sliderUp", "wingsuit", "tracksuit", "staticLine"];
@@ -12,24 +12,25 @@ function statusBadgeClass(status: string): string {
   return "bg-[#fbe4e2] text-[#8f231d]";
 }
 
-export default function SiteDetail({ site, sitePath }: { site: SiteDocument; sitePath?: string }) {
-  const { t } = useTranslation(["site", "common"]);
-  const mainExit = site.features.find((f) => f.role === "exit");
+export default function ObjectDetail({ doc, objectPath }: { doc: ObjectDocument; objectPath?: string }) {
+  const { t } = useTranslation(["object", "common", "wizard"]);
+  const mainExit = doc.features.find((f) => f.role === "exit");
   const pos = mainExit?.position;
   const measurements = (mainExit?.measurements ?? {}) as Record<string, MeasurementValue>;
   const suitability = mainExit?.suitability ?? {};
-  const firstProv = site.provenance[0];
+  const firstProv = doc.provenance[0];
 
   return (
     <div className="flex h-full flex-col gap-4 overflow-y-auto bg-[#f7f5ef] p-6">
       {/* Identity */}
       <div className="flex items-start justify-between gap-3">
         <div className="flex flex-col gap-1">
-          <h2 className="font-display text-2xl">{site.name}</h2>
+          <h2 className="font-display text-2xl">{doc.name}</h2>
           <span className="text-[13px] text-muted">
-            {site.country}
-            {site.region ? ` · ${site.region}` : ""}
-            {site.city ? ` · ${site.city}` : ""}
+            {doc.objectType ? `${t(`wizard:details.objects.${doc.objectType}`)} · ` : ""}
+            {doc.country}
+            {doc.region ? ` · ${doc.region}` : ""}
+            {doc.city ? ` · ${doc.city}` : ""}
           </span>
           {pos && (
             <span className="font-mono text-xs text-muted">
@@ -39,18 +40,18 @@ export default function SiteDetail({ site, sitePath }: { site: SiteDocument; sit
           )}
         </div>
         <div className="flex flex-col items-end gap-1.5">
-          <span className={`rounded px-2.5 py-1 text-xs font-bold ${statusBadgeClass(site.status)}`}>
-            {t(`site:status.${site.status}`)}
+          <span className={`rounded px-2.5 py-1 text-xs font-bold ${statusBadgeClass(doc.status)}`}>
+            {t(`object:status.${doc.status}`)}
           </span>
           <span className="rounded bg-[#eee9db] px-2.5 py-1 text-xs font-bold text-warntext">
-            {t(`site:access.${site.access}`)}
+            {t(`object:access.${doc.access}`)}
           </span>
         </div>
       </div>
 
       {/* Features */}
       <div className="flex flex-wrap gap-2">
-        {site.features.map((f, i) => (
+        {doc.features.map((f, i) => (
           <span
             key={i}
             className={
@@ -61,7 +62,7 @@ export default function SiteDetail({ site, sitePath }: { site: SiteDocument; sit
                   : "rounded border border-line bg-white px-3 py-1.5 text-[13px] font-medium"
             }
           >
-            {f.name || t(`site:roles.${f.role}`)}
+            {f.name || t(`object:roles.${f.role}`)}
           </span>
         ))}
       </div>
@@ -78,7 +79,7 @@ export default function SiteDetail({ site, sitePath }: { site: SiteDocument; sit
                   : "rounded bg-[#f4f2ec] px-2.5 py-1 text-xs font-semibold text-[#b0aca0] line-through"
               }
             >
-              {t(`site:suitability.${k}`)}
+              {t(`object:suitability.${k}`)}
             </span>
           ))}
         </div>
@@ -91,8 +92,8 @@ export default function SiteDetail({ site, sitePath }: { site: SiteDocument; sit
             const m = measurements[k];
             const label =
               k === "heightAgl"
-                ? t("site:measurements.heightAgl", { reference: m.reference })
-                : t(`site:measurements.${k}`);
+                ? t("object:measurements.heightAgl", { reference: m.reference })
+                : t(`object:measurements.${k}`);
             const value = k === "minGlideRatio" ? `${m.value}` : `${m.valueM} m`;
             return (
               <div key={k} className="flex items-baseline justify-between gap-3">
@@ -110,17 +111,17 @@ export default function SiteDetail({ site, sitePath }: { site: SiteDocument; sit
           })}
           {mainExit.exitDirectionDeg != null && (
             <div className="flex items-baseline justify-between gap-3">
-              <span className="text-[#4a4c46]">{t("site:measurements.exitDirection")}</span>
+              <span className="text-[#4a4c46]">{t("object:measurements.exitDirection")}</span>
               <span className="font-mono font-medium">
-                {mainExit.exitDirectionDeg}° {t("site:measurements.trueSuffix")}
+                {mainExit.exitDirectionDeg}° {t("object:measurements.trueSuffix")}
               </span>
             </div>
           )}
           {mainExit.approachTimeMin != null && (
             <div className="flex items-baseline justify-between gap-3">
-              <span className="text-[#4a4c46]">{t("site:measurements.approach")}</span>
+              <span className="text-[#4a4c46]">{t("object:measurements.approach")}</span>
               <span className="font-mono font-medium">
-                {mainExit.approachTimeMin} {t("site:measurements.minSuffix")}
+                {mainExit.approachTimeMin} {t("object:measurements.minSuffix")}
               </span>
             </div>
           )}
@@ -140,19 +141,19 @@ export default function SiteDetail({ site, sitePath }: { site: SiteDocument; sit
       </div>
 
       {/* Community layer (ADR-7) */}
-      {sitePath && <CommunitySection sitePath={sitePath} />}
+      {objectPath && <CommunitySection objectPath={objectPath} />}
 
       <div className="flex gap-2.5">
-        {sitePath ? (
+        {objectPath ? (
           <Link
-            to={`/panel/wizard?correct=${sitePath}`}
+            to={`/panel/wizard?correct=${objectPath}`}
             className="flex-1 rounded border-[1.5px] border-ink py-3 text-center text-sm font-bold"
           >
-            {t("site:panel.suggestChange")}
+            {t("object:panel.suggestChange")}
           </Link>
         ) : (
           <span className="flex-1 rounded border-[1.5px] border-line py-3 text-center text-sm font-bold text-faint">
-            {t("site:panel.suggestChange")}
+            {t("object:panel.suggestChange")}
           </span>
         )}
         <button
@@ -160,13 +161,13 @@ export default function SiteDetail({ site, sitePath }: { site: SiteDocument; sit
           disabled
           className="flex-1 cursor-not-allowed rounded bg-ink py-3 text-sm font-bold text-paper opacity-50"
         >
-          {t("site:panel.fullGuide")}
+          {t("object:panel.fullGuide")}
         </button>
       </div>
 
       {firstProv && (
         <span className="text-xs text-faint">
-          {t("site:panel.contributedBy")}{" "}
+          {t("object:panel.contributedBy")}{" "}
           <span className="font-semibold text-muted">@{firstProv.contributor ?? "?"}</span>
           {" · "}
           {firstProv.contributedAt}

@@ -2,7 +2,7 @@
   "hero": {
     "kicker": "AN OPEN STANDARD + A COMMUNITY-OWNED COMMONS",
     "title": "One shared format for BASE exit data.",
-    "sub": "Today every app and database stores exit sites differently, and nothing is compatible — when a platform shuts down, its data disappears with it. With a shared format, any app can read and contribute the same data, and the knowledge outlives the tools.",
+    "sub": "Today every app and database stores objects and exits differently, and nothing is compatible — when a platform shuts down, its data disappears with it. With a shared format, any app can read and contribute the same data, and the knowledge outlives the tools.",
     "ctaMap": "Browse the map",
     "ctaSpec": "Read the standard"
   },
@@ -16,11 +16,11 @@
     "title": "Three pieces, one commons",
     "standard": {
       "title": "The standard",
-      "body": "A versioned, machine-validated specification for how exit sites are described — location, heights, access, landings, hazards. Free to implement for anyone, even proprietary apps (CC0)."
+      "body": "A versioned, machine-validated specification for how objects and their exits are described — location, heights, access, landings, hazards. Free to implement for anyone, even proprietary apps (CC0)."
     },
     "commons": {
       "title": "The commons",
-      "body": "A public database of exit sites in that format, contributed by jumpers, reviewed by humans before anything publishes, and free for every app to use (ODbL)."
+      "body": "A public database of objects and exits in that format, contributed by jumpers, reviewed by humans before anything publishes, and free for every app to use (ODbL)."
     },
     "foundation": {
       "title": "The foundation",
@@ -44,7 +44,7 @@
     }
   },
   "contribute": {
-    "title": "Know a site? Add it from your phone.",
+    "title": "Know an object? Add it from your phone.",
     "body": "Drop a pin, answer a short set of questions, and a human moderator reviews everything before it publishes. Corrections work the same way — and every contribution keeps your name on it, permanently.",
     "cta": "Add an exit",
     "ctaAlt": "or suggest a correction",

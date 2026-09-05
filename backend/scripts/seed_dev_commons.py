@@ -1,15 +1,15 @@
 """Seed a THROWAWAY dev commons for local development.
 
 The real commons repo ships empty (clean-hands rule) — local dev still needs
-sites on the map, so this creates var/dev-commons: a git-initialized commons
-tree filled with SYNTHETIC sites at invented coordinates, plus built
+objects on the map, so this creates var/dev-commons: a git-initialized commons
+tree filled with SYNTHETIC objects at invented coordinates, plus built
 artifacts. Point the backend at it:
 
     $env:OPENEXITS_COMMONS_REPO = "<backend>/openexits_panel/var/dev-commons"
     python -m flask --app openexits_panel.app:create_app run
 
 Re-running wipes and re-seeds. Everything here is invented; never add a real
-site to this script.
+object to this script.
 """
 from __future__ import annotations
 
@@ -39,15 +39,14 @@ sys.path.insert(0, str(COMMONS_SCRIPTS))
 from build_artifacts import build  # noqa: E402
 
 
-def site(site_id, name, country, region, city, lat, lon, elev, *, rockdrop=None,
-         agl=None, direction=180, status="open", access="tolerated",
-         landing=None, suitability=None, guide_fr=None):
+def obj_record(object_id, name, country, region, city, lat, lon, elev, *, rockdrop=None,
+               agl=None, direction=180, status="open", access="tolerated",
+               landing=None, suitability=None, guide_fr=None):
     features = [{
         "role": "exit",
         "name": "Main exit",
         "position": {"lat": lat, "lon": lon, "elevationM": elev, "precisionM": 10,
                      "pinConfirmed": True},
-        "objectType": "earth",
         "suitability": suitability or {"slick": False, "sliderOff": True, "sliderUp": True,
                                        "wingsuit": True, "tracksuit": True, "staticLine": False},
         "exitDirectionDeg": direction,
@@ -69,7 +68,7 @@ def site(site_id, name, country, region, city, lat, lon, elev, *, rockdrop=None,
         })
     doc = {
         "schemaVersion": "2.0",
-        "id": site_id,
+        "id": object_id,
         "name": name,
         "country": country,
         "region": region,
@@ -77,6 +76,7 @@ def site(site_id, name, country, region, city, lat, lon, elev, *, rockdrop=None,
         "status": status,
         "access": access,
         "sensitivity": "public",
+        "objectType": "earth",
         "provenance": [{"source": "panel", "sourceId": None, "contributor": "dev_seed",
                         "contributedAt": "2026-08-27", "licence": "ODbL-1.0"}],
         "updatedAt": "2026-08-27T09:00:00Z",
@@ -88,27 +88,27 @@ def site(site_id, name, country, region, city, lat, lon, elev, *, rockdrop=None,
 
 
 # All SYNTHETIC — invented names, invented coordinates.
-SITES = [
-    site("01J9V0AAAAAAAAAAAAAAAAAAAA", "Pointe du Héron", "FR", "Massif des Ardines",
+OBJECTS = [
+    obj_record("01J9V0AAAAAAAAAAAAAAAAAAAA", "Pointe du Héron", "FR", "Massif des Ardines",
          "Saint-Elphe", 45.9012, 6.5123, 2140, rockdrop=220, agl=940, direction=210,
          landing=(45.8951, 6.5089, 1180),
-         guide_fr="Site fictif de démonstration — toutes les valeurs sont inventées."),
-    site("01J9V0AAAAAAAAAAAAAAAAAAAB", "Aiguille des Fauvettes", "FR", "Massif des Ardines",
+         guide_fr="Objet fictif de démonstration — toutes les valeurs sont inventées."),
+    obj_record("01J9V0AAAAAAAAAAAAAAAAAAAB", "Aiguille des Fauvettes", "FR", "Massif des Ardines",
          "Brévane", 45.8871, 6.4892, 1960, rockdrop=205, direction=230),
-    site("01J9V0AAAAAAAAAAAAAAAAAAAC", "Roc de l'Épervier", "FR", "Massif des Ardines",
+    obj_record("01J9V0AAAAAAAAAAAAAAAAAAAC", "Roc de l'Épervier", "FR", "Massif des Ardines",
          "Saint-Elphe", 45.8211, 6.4312, 2105, rockdrop=215, agl=910, direction=230,
          landing=(45.8149, 6.4281, 1195)),
-    site("01J9V0AAAAAAAAAAAAAAAAAAAD", "Torre di Malvento", "IT", "Alpi Immaginarie",
+    obj_record("01J9V0AAAAAAAAAAAAAAAAAAAD", "Torre di Malvento", "IT", "Alpi Immaginarie",
          "Prellavena", 46.1012, 10.9234, 1410, rockdrop=140, direction=10,
          status="seasonal", access="restricted-seasonal",
          suitability={"sliderOff": True, "staticLine": True}),
-    site("01J9V0AAAAAAAAAAAAAAAAAAAE", "Paroi des Chouettes", "CH", "Vallée Fictive",
+    obj_record("01J9V0AAAAAAAAAAAAAAAAAAAE", "Paroi des Chouettes", "CH", "Vallée Fictive",
          "Grunmatt", 46.5123, 7.8123, 1980, rockdrop=260, agl=1050, direction=300,
          landing=(46.5051, 7.8060, 930)),
 ]
 
 # the seasonal one needs its closure block
-SITES[3]["seasonalClosure"] = {"from": "--02-15", "to": "--06-30",
+OBJECTS[3]["seasonalClosure"] = {"from": "--02-15", "to": "--06-30",
                                "reason": {"en": "invented nesting window"}}
 
 
@@ -117,12 +117,12 @@ def main() -> int:
         sys.stdout.reconfigure(encoding="utf-8")
     if DEV_COMMONS.exists():
         _rmtree_git_safe(DEV_COMMONS)
-    for doc in SITES:
-        path = DEV_COMMONS / "sites" / doc["country"].lower() / f"{slugify(doc['name'])}.json"
+    for doc in OBJECTS:
+        path = DEV_COMMONS / "objects" / doc["country"].lower() / f"{slugify(doc['name'])}.json"
         write_json(path, doc)
         report = validate_file(path)
         if not report.ok:
-            print(f"seed site invalid: {path.name}: {[f.message for f in report.findings]}")
+            print(f"seed object invalid: {path.name}: {[f.message for f in report.findings]}")
             return 1
     # the publisher runs ci/run_gates.py from inside the repo — mirror the real
     # commons toolchain into the dev repo
@@ -139,7 +139,7 @@ def main() -> int:
          "-c", "user.email=dev@openexits.invalid", "commit", "-q", "-m", "seed dev commons"],
         check=True,
     )
-    print(f"seeded {len(SITES)} synthetic site(s) -> {DEV_COMMONS}")
+    print(f"seeded {len(OBJECTS)} synthetic object(s) -> {DEV_COMMONS}")
     print(f'set OPENEXITS_COMMONS_REPO to "{DEV_COMMONS}" and start the backend')
     return 0
 

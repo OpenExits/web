@@ -11,15 +11,15 @@ interface Comment {
 }
 
 interface CommunityData {
-  site_id: string;
+  object_id: string;
   comments: Comment[];
   confirmations: { last_confirmed_on: string | null; confirmations_12mo: number };
 }
 
 const CATEGORIES = ["position", "measurement", "access_status", "landing", "sensitive", "other"];
 
-export default function CommunitySection({ sitePath }: { sitePath: string }) {
-  const { t } = useTranslation("site");
+export default function CommunitySection({ objectPath }: { objectPath: string }) {
+  const { t } = useTranslation("object");
   const { user, api } = useAuth();
   const [data, setData] = useState<CommunityData | null>(null);
   const [confirmed, setConfirmed] = useState(false);
@@ -30,11 +30,11 @@ export default function CommunitySection({ sitePath }: { sitePath: string }) {
   const [comment, setComment] = useState("");
 
   const refresh = useCallback(() => {
-    fetch(`/api/v1/public/sites/${sitePath}/community`)
+    fetch(`/api/v1/public/objects/${objectPath}/community`)
       .then((r) => (r.ok ? r.json() : null))
       .then(setData)
       .catch(() => undefined);
-  }, [sitePath]);
+  }, [objectPath]);
 
   useEffect(refresh, [refresh]);
 
@@ -42,7 +42,7 @@ export default function CommunitySection({ sitePath }: { sitePath: string }) {
   const conf = data.confirmations;
 
   async function doConfirm() {
-    const r = await api(`/api/v1/sites/${data!.site_id}/confirm`, { method: "POST" });
+    const r = await api(`/api/v1/objects/${data!.object_id}/confirm`, { method: "POST" });
     if (r.ok) {
       setConfirmed(true);
       refresh();
@@ -51,7 +51,7 @@ export default function CommunitySection({ sitePath }: { sitePath: string }) {
 
   async function sendReport() {
     if (!reportCategory) return;
-    const r = await api(`/api/v1/sites/${data!.site_id}/report`, {
+    const r = await api(`/api/v1/objects/${data!.object_id}/report`, {
       method: "POST",
       body: JSON.stringify({ category: reportCategory, body: reportBody }),
     });
@@ -63,7 +63,7 @@ export default function CommunitySection({ sitePath }: { sitePath: string }) {
 
   async function postComment() {
     if (!comment.trim()) return;
-    const r = await api(`/api/v1/sites/${data!.site_id}/comments`, {
+    const r = await api(`/api/v1/objects/${data!.object_id}/comments`, {
       method: "POST",
       body: JSON.stringify({ body: comment }),
     });

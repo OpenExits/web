@@ -4,9 +4,9 @@ import { useTranslation } from "react-i18next";
 
 import MapView from "../../../components/map/MapView";
 import { useAuth } from "../../../lib/auth";
-import { fetchSite } from "../../../lib/api";
+import { fetchObject } from "../../../lib/api";
 import {
-  clearDraft, emptyPayload, loadDraft, payloadFromSite, saveDraft,
+  clearDraft, emptyPayload, loadDraft, payloadFromObject, saveDraft,
   type WizardFeature, type WizardPayload,
 } from "./state";
 
@@ -14,7 +14,7 @@ type Step = "notice" | "pin" | "details" | "measurements" | "landing" | "notes" 
 const STEP_ORDER: Step[] = ["notice", "pin", "details", "measurements", "landing", "notes", "review"];
 
 interface NearbyHit {
-  site_id: string;
+  object_id: string;
   path: string | null;
   name: string;
   distance_m: number;
@@ -49,7 +49,7 @@ function landingOf(p: WizardPayload): WizardFeature | undefined {
 }
 
 export default function Wizard() {
-  const { t } = useTranslation(["wizard", "site"]);
+  const { t } = useTranslation(["wizard", "object"]);
   const { user, api, acceptTerms } = useAuth();
   const [params] = useSearchParams();
   const correctPath = params.get("correct");
@@ -68,12 +68,12 @@ export default function Wizard() {
   // correction prefill
   useEffect(() => {
     if (!correctPath) return;
-    fetchSite(correctPath)
-      .then((doc) => setPayload(payloadFromSite(doc, correctPath)))
+    fetchObject(correctPath)
+      .then((doc) => setPayload(payloadFromObject(doc, correctPath)))
       .catch(() => setSubmitError({ key: "wizard.target_not_found" }));
   }, [correctPath]);
 
-  // draft autosave (not for corrections — those prefill from the live site)
+  // draft autosave (not for corrections — those prefill from the live object)
   useEffect(() => {
     if (!correctPath && step !== "done") saveDraft(payload);
   }, [payload, correctPath, step]);
@@ -106,22 +106,22 @@ export default function Wizard() {
 
   const checkNearby = useCallback(async () => {
     const exit = exitOf(payload);
-    if (!exit || payload.kind !== "new_site") {
+    if (!exit || payload.kind !== "new_object") {
       goNext();
       return;
     }
-    const r = await api(`/api/v1/sites/nearby?lat=${exit.lat}&lon=${exit.lon}`);
+    const r = await api(`/api/v1/objects/nearby?lat=${exit.lat}&lon=${exit.lon}`);
     const hits: NearbyHit[] = r.ok ? (await r.json()).hits : [];
     if (hits.length) setNearbyHits(hits);
     else goNext();
   }, [api, payload, goNext]);
 
-  const attachToSite = useCallback(
+  const attachToObject = useCallback(
     (hit: NearbyHit) => {
       update((p) => {
         p.kind = "new_feature";
-        p.targetSitePath = hit.path ?? undefined;
-        p.site = {};
+        p.targetObjectPath = hit.path ?? undefined;
+        p.object = {};
         return p;
       });
       setNearbyHits(null);
@@ -262,10 +262,10 @@ export default function Wizard() {
                 <p className="text-sm text-[#4a4c46]">{t("wizard:nearby.body")}</p>
                 {nearbyHits.slice(0, 3).map((hit) => (
                   <button
-                    key={hit.site_id}
+                    key={hit.object_id}
                     type="button"
                     disabled={!hit.path}
-                    onClick={() => attachToSite(hit)}
+                    onClick={() => attachToObject(hit)}
                     className="flex items-center justify-between rounded-lg border border-line bg-white px-4 py-3 text-left disabled:opacity-60"
                   >
                     <span className="flex flex-col">
@@ -304,28 +304,28 @@ export default function Wizard() {
           <div className="flex flex-col gap-6 p-5">
             {payload.kind === "correction" && (
               <p className="rounded bg-[#e8edf5] px-3.5 py-2.5 text-sm text-[#33527d]">
-                {t("wizard:correction.banner", { name: payload.site.name })}
+                {t("wizard:correction.banner", { name: payload.object.name })}
               </p>
             )}
             {payload.kind !== "new_feature" && (
               <>
                 <label className="flex flex-col gap-1.5">
-                  <span className={labelCls}>{t("wizard:details.siteName")}</span>
+                  <span className={labelCls}>{t("wizard:details.objectName")}</span>
                   <input
                     className={inputCls}
-                    value={payload.site.name ?? ""}
-                    onChange={(e) => update((p) => ({ ...p, site: { ...p.site, name: e.target.value } }))}
+                    value={payload.object.name ?? ""}
+                    onChange={(e) => update((p) => ({ ...p, object: { ...p.object, name: e.target.value } }))}
                   />
-                  <span className="text-xs text-faint">{t("wizard:details.siteNameHint")}</span>
+                  <span className="text-xs text-faint">{t("wizard:details.objectNameHint")}</span>
                 </label>
                 <label className="flex flex-col gap-1.5">
                   <span className={labelCls}>{t("wizard:details.country")}</span>
                   <input
                     className={`${inputCls} w-28 font-mono uppercase`}
                     maxLength={2}
-                    value={payload.site.country ?? ""}
+                    value={payload.object.country ?? ""}
                     onChange={(e) =>
-                      update((p) => ({ ...p, site: { ...p.site, country: e.target.value.toUpperCase() } }))
+                      update((p) => ({ ...p, object: { ...p.object, country: e.target.value.toUpperCase() } }))
                     }
                   />
                 </label>
@@ -334,11 +334,11 @@ export default function Wizard() {
                     <span className={labelCls}>{t("wizard:details.status")}</span>
                     <select
                       className={inputCls}
-                      value={payload.site.status ?? "open"}
-                      onChange={(e) => update((p) => ({ ...p, site: { ...p.site, status: e.target.value } }))}
+                      value={payload.object.status ?? "open"}
+                      onChange={(e) => update((p) => ({ ...p, object: { ...p.object, status: e.target.value } }))}
                     >
                       {STATUSES.map((s) => (
-                        <option key={s} value={s}>{t(`site:status.${s}`)}</option>
+                        <option key={s} value={s}>{t(`object:status.${s}`)}</option>
                       ))}
                     </select>
                   </label>
@@ -346,36 +346,55 @@ export default function Wizard() {
                     <span className={labelCls}>{t("wizard:details.access")}</span>
                     <select
                       className={inputCls}
-                      value={payload.site.access ?? "unknown"}
-                      onChange={(e) => update((p) => ({ ...p, site: { ...p.site, access: e.target.value } }))}
+                      value={payload.object.access ?? "unknown"}
+                      onChange={(e) => update((p) => ({ ...p, object: { ...p.object, access: e.target.value } }))}
                     >
                       {ACCESSES.map((a) => (
-                        <option key={a} value={a}>{t(`site:access.${a}`)}</option>
+                        <option key={a} value={a}>{t(`object:access.${a}`)}</option>
                       ))}
                     </select>
                   </label>
                 </div>
+                <div className="flex flex-col gap-2.5">
+                  <span className={labelCls}>{t("wizard:details.objectType")}</span>
+                  <div className="grid grid-cols-4 gap-2">
+                    {OBJECT_TYPES.map((o) => (
+                      <button
+                        key={o}
+                        type="button"
+                        onClick={() => update((p) => ({ ...p, object: { ...p.object, objectType: o } }))}
+                        className={
+                          payload.object.objectType === o
+                            ? "rounded-md bg-ink py-3.5 text-sm font-bold text-paper"
+                            : "rounded-md border border-line bg-white py-3.5 text-sm font-semibold text-muted"
+                        }
+                      >
+                        {t(`wizard:details.objects.${o}`)}
+                      </button>
+                    ))}
+                  </div>
+                </div>
+                <div className="flex flex-col gap-2.5">
+                  <span className={labelCls}>{t("wizard:details.objectType")}</span>
+                  <div className="grid grid-cols-4 gap-2">
+                    {OBJECT_TYPES.map((o) => (
+                      <button
+                        key={o}
+                        type="button"
+                        onClick={() => update((p) => ({ ...p, object: { ...p.object, objectType: o } }))}
+                        className={
+                          payload.object.objectType === o
+                            ? "rounded-md bg-ink py-3.5 text-sm font-bold text-paper"
+                            : "rounded-md border border-line bg-white py-3.5 text-sm font-semibold text-muted"
+                        }
+                      >
+                        {t(`wizard:details.objects.${o}`)}
+                      </button>
+                    ))}
+                  </div>
+                </div>
               </>
             )}
-            <div className="flex flex-col gap-2.5">
-              <span className={labelCls}>{t("wizard:details.objectType")}</span>
-              <div className="grid grid-cols-4 gap-2">
-                {OBJECT_TYPES.map((o) => (
-                  <button
-                    key={o}
-                    type="button"
-                    onClick={() => setExit({ objectType: o })}
-                    className={
-                      exit?.objectType === o
-                        ? "rounded-md bg-ink py-3.5 text-sm font-bold text-paper"
-                        : "rounded-md border border-line bg-white py-3.5 text-sm font-semibold text-muted"
-                    }
-                  >
-                    {t(`wizard:details.objects.${o}`)}
-                  </button>
-                ))}
-              </div>
-            </div>
             <div className="flex flex-col gap-2.5">
               <div className="flex items-baseline justify-between">
                 <span className={labelCls}>{t("wizard:details.suitability")}</span>
@@ -393,7 +412,7 @@ export default function Wizard() {
                         : "flex h-12 items-center justify-between rounded-md border border-line bg-white px-3.5 text-sm font-semibold text-muted"
                     }
                   >
-                    {t(`site:suitability.${k}`)}
+                    {t(`object:suitability.${k}`)}
                     <span className={suit[k] ? "text-signal" : "text-line"}>{suit[k] ? "✓" : "○"}</span>
                   </button>
                 ))}
@@ -416,7 +435,7 @@ export default function Wizard() {
             <button
               type="button"
               className={primaryBtn}
-              disabled={payload.kind !== "new_feature" && (!payload.site.name || !payload.site.country || !Object.values(suit).some(Boolean))}
+              disabled={payload.kind !== "new_feature" && (!payload.object.name || !payload.object.country || (payload.kind === "new_object" && !payload.object.objectType) || !Object.values(suit).some(Boolean))}
               onClick={goNext}
             >
               {t("wizard:details.continue")}
@@ -578,14 +597,14 @@ export default function Wizard() {
       case "review": {
         const suitList = Object.entries(exit?.suitability ?? {})
           .filter(([, v]) => v)
-          .map(([k]) => t(`site:suitability.${k}`))
+          .map(([k]) => t(`object:suitability.${k}`))
           .join(" · ");
         return (
           <div className="flex flex-col gap-4 p-5">
             <div className="flex flex-col rounded-md border border-line bg-white">
               {[
                 [t("wizard:review.position"), exit ? `${exit.lat.toFixed(5)}, ${exit.lon.toFixed(5)} · ${exit.positionSource}` : "—", "pin"],
-                [t("wizard:review.details"), `${payload.site.name ?? payload.targetSitePath ?? ""} — ${suitList}${exit?.exitDirectionDeg != null ? ` — ${exit.exitDirectionDeg}°` : ""}`, "details"],
+                [t("wizard:review.details"), `${payload.object.name ?? payload.targetObjectPath ?? ""} — ${suitList}${exit?.exitDirectionDeg != null ? ` — ${exit.exitDirectionDeg}°` : ""}`, "details"],
                 [t("wizard:review.landing"), landing ? `${landing.lat.toFixed(5)}, ${landing.lon.toFixed(5)} (${landing.surface})` : t("wizard:review.noLanding"), "landing"],
                 [t("wizard:review.notes"), payload.notes?.observations || "—", "notes"],
               ].map(([label, value, target], i, arr) => (

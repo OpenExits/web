@@ -1,8 +1,8 @@
 {
   "notice": {
-    "title": "Before you add a site",
-    "body": "Do not submit access-restricted or landowner-sensitive exits. A submission is permanent, even if rejected — the public commons holds openly-known sites only. When in doubt, ask a local first.",
-    "agree": "Understood — this site is openly known",
+    "title": "Before you add an object",
+    "body": "Do not submit access-restricted or landowner-sensitive exits. A submission is permanent, even if rejected — the public commons holds openly-known objects only. When in doubt, ask a local first.",
+    "agree": "Understood — this object is openly known",
     "moderated": "Everything you submit is reviewed by a human moderator before it publishes."
   },
   "pin": {
@@ -14,19 +14,19 @@
     "continue": "Continue"
   },
   "nearby": {
-    "title": "There is a site nearby",
-    "body": "Is your exit part of this existing site? Attaching it keeps every exit of one wall on one record.",
-    "attach": "Add my exit to this site",
-    "different": "No — it's a different site",
-    "tooClose": "A new site under {{m}} m from an existing one can't be published.",
+    "title": "There is an object nearby",
+    "body": "Is your exit part of this existing object? Attaching it keeps every exit of one wall on one record.",
+    "attach": "Add my exit to this object",
+    "different": "No — it's a different object",
+    "tooClose": "A new object under {{m}} m from an existing one can't be published.",
     "away": "{{m}} m away",
     "features": "{{count}} feature(s)",
     "pendingTag": "pending review"
   },
   "details": {
-    "title": "Site & exit details",
-    "siteName": "Site name",
-    "siteNameHint": "The object — the cliff, the bridge — not one exit",
+    "title": "Object & exit details",
+    "objectName": "Object name",
+    "objectNameHint": "The cliff, the bridge, the antenna, the building — not one exit",
     "country": "Country (two-letter code)",
     "objectType": "What kind of object?",
     "objects": { "building": "Building", "antenna": "Antenna", "span": "Span", "earth": "Earth" },

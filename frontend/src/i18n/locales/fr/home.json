@@ -16,11 +16,11 @@
     "title": "Trois briques, un commun",
     "standard": {
       "title": "Le standard",
-      "body": "Une spécification versionnée et validée par la machine pour décrire les sites — position, hauteurs, accès, atterrissages, dangers. Libre d'implémentation pour tous, y compris les applis propriétaires (CC0)."
+      "body": "Une spécification versionnée et validée par la machine pour décrire les objets et leurs exits — position, hauteurs, accès, atterrissages, dangers. Libre d'implémentation pour tous, y compris les applis propriétaires (CC0)."
     },
     "commons": {
       "title": "Le commun",
-      "body": "Une base publique de sites dans ce format, alimentée par les pratiquants, relue par des humains avant toute publication, et libre d'utilisation pour toute appli (ODbL)."
+      "body": "Une base publique d'objets et d'exits dans ce format, alimentée par les pratiquants, relue par des humains avant toute publication, et libre d'utilisation pour toute appli (ODbL)."
     },
     "foundation": {
       "title": "L'association",
@@ -44,7 +44,7 @@
     }
   },
   "contribute": {
-    "title": "Vous connaissez un site ? Ajoutez-le depuis votre téléphone.",
+    "title": "Vous connaissez un objet ? Ajoutez-le depuis votre téléphone.",
     "body": "Posez un point, répondez à quelques questions, et un modérateur humain relit tout avant publication. Les corrections suivent le même chemin — et chaque contribution garde votre nom, pour toujours.",
     "cta": "Ajouter un exit",
     "ctaAlt": "ou proposer une correction",

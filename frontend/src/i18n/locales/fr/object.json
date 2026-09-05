@@ -44,8 +44,8 @@
     "suggestChange": "Proposer une correction",
     "fullGuide": "Guide complet",
     "contributedBy": "Contribué par",
-    "loading": "Chargement du site…",
-    "error": "Impossible de charger ce site."
+    "loading": "Chargement de l'objet…",
+    "error": "Impossible de charger cet objet."
   },
   "community": {
     "lastConfirmed": "Confirmé pour la dernière fois le {{date}}",
@@ -63,13 +63,13 @@
       "measurement": "Une mesure est fausse ou obsolète",
       "access_status": "L'accès ou le statut a changé",
       "landing": "L'info d'atterrissage est fausse",
-      "sensitive": "Ce site ne devrait pas être listé",
+      "sensitive": "Cet objet ne devrait pas être listé",
       "other": "Autre chose"
     },
     "discussion": "Discussion",
     "messages": "{{count}} message(s)",
-    "composerHint": "Discussion ouverte sur ce site. Une info concrète ? Utilisez « Proposer une correction » pour qu'elle entre dans la base.",
-    "composerWarning": "Public et permanent — ne publiez jamais de beta d'accès pour un site sensible.",
+    "composerHint": "Discussion ouverte sur cet objet. Une info concrète ? Utilisez « Proposer une correction » pour qu'elle entre dans la base.",
+    "composerWarning": "Public et permanent — ne publiez jamais de beta d'accès pour un objet sensible.",
     "post": "Publier",
     "delete": "Supprimer",
     "signInToPost": "Connectez-vous pour participer"

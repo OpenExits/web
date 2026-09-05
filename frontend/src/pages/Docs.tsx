@@ -9,7 +9,7 @@ const docs = import.meta.glob("../content/spec/*.md", {
   eager: true,
 }) as Record<string, string>;
 
-const ORDER = ["openexits-2.0", "vocabularies", "rationale", "versioning", "annex-freeflight"];
+const ORDER = ["openexits-2.0", "vocabularies", "rationale", "versioning"];
 
 function slugOf(path: string): string {
   return path.split("/").pop()!.replace(/\.md$/, "");

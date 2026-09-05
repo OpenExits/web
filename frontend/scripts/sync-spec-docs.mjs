@@ -14,18 +14,25 @@
 // SPEC_TAG is pinned rather than tracking main for the same reason
 // commons/ci/requirements.txt pins the validator: the docs a build ships must
 // correspond to a specific published version of the standard.
-import { copyFileSync, existsSync, mkdirSync, readdirSync, writeFileSync } from "node:fs";
+import { copyFileSync, existsSync, mkdirSync, readdirSync, unlinkSync, writeFileSync } from "node:fs";
 import { dirname, join, resolve } from "node:path";
 import { fileURLToPath } from "node:url";
 
 const SPEC_REPO = "OpenExits/specification";
-const SPEC_TAG = "v2.0.1";
+const SPEC_TAG = "v2.0.2";
 
 const here = dirname(fileURLToPath(import.meta.url));
 const siblingDir = resolve(here, "../../../specification/spec");
 const outDir = resolve(here, "../src/content/spec");
 
 mkdirSync(outDir, { recursive: true });
+
+// Start from an empty directory: a document withdrawn from the specification
+// (the freeflight annex, for one) must not linger from an earlier sync and
+// ship as a docs page from a local checkout.
+for (const name of readdirSync(outDir)) {
+  if (name.endsWith(".md")) unlinkSync(join(outDir, name));
+}
 
 function fromSibling() {
   let n = 0;

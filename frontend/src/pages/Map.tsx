@@ -1,29 +1,29 @@
 import { useCallback, useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import MapView from "../components/map/MapView";
-import SiteDetail from "../components/SiteDetail";
-import { fetchSite, type SiteDocument } from "../lib/api";
+import ObjectDetail from "../components/ObjectDetail";
+import { fetchObject, type ObjectDocument } from "../lib/api";
 
 type PanelState =
   | { kind: "closed" }
   | { kind: "loading"; path: string }
-  | { kind: "loaded"; path: string; site: SiteDocument }
+  | { kind: "loaded"; path: string; doc: ObjectDocument }
   | { kind: "error"; path: string };
 
 export default function MapPage() {
-  const { t } = useTranslation("site");
+  const { t } = useTranslation("object");
   const [panel, setPanel] = useState<PanelState>({ kind: "closed" });
 
-  const openSite = useCallback((path: string) => {
+  const openObject = useCallback((path: string) => {
     setPanel({ kind: "loading", path });
   }, []);
 
   useEffect(() => {
     if (panel.kind !== "loading") return;
     let cancelled = false;
-    fetchSite(panel.path)
-      .then((site) => {
-        if (!cancelled) setPanel({ kind: "loaded", path: panel.path, site });
+    fetchObject(panel.path)
+      .then((doc) => {
+        if (!cancelled) setPanel({ kind: "loaded", path: panel.path, doc });
       })
       .catch(() => {
         if (!cancelled) setPanel({ kind: "error", path: panel.path });
@@ -35,7 +35,7 @@ export default function MapPage() {
 
   return (
     <div className="relative h-[calc(100vh-76px)] w-full">
-      <MapView onSiteClick={openSite} />
+      <MapView onObjectClick={openObject} />
       {panel.kind !== "closed" && (
         <aside className="absolute bottom-0 right-0 top-0 w-full max-w-[424px] border-l border-line bg-[#f7f5ef] shadow-xl">
           <button
@@ -54,7 +54,7 @@ export default function MapPage() {
           {panel.kind === "error" && (
             <p className="p-6 text-sm text-warntext">{t("panel.error")}</p>
           )}
-          {panel.kind === "loaded" && <SiteDetail site={panel.site} sitePath={panel.path} />}
+          {panel.kind === "loaded" && <ObjectDetail doc={panel.doc} objectPath={panel.path} />}
         </aside>
       )}
     </div>

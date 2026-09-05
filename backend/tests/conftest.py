@@ -91,13 +91,14 @@ SYNTH_HERON = {
     "status": "open",
     "access": "tolerated",
     "sensitivity": "public",
+    "objectType": "earth",
     "provenance": [{"source": "panel", "contributor": "heron_n",
                     "contributedAt": "2026-04-02", "licence": "ODbL-1.0"}],
     "updatedAt": "2026-08-27T09:00:00Z",
     "features": [
         {"role": "exit", "name": "High exit",
          "position": {"lat": 45.9012, "lon": 6.5123, "elevationM": 2140},
-         "objectType": "earth", "suitability": {"sliderOff": True, "wingsuit": True},
+         "suitability": {"sliderOff": True, "wingsuit": True},
          "exitDirectionDeg": 210},
         {"role": "landing", "name": "Pré Rond", "surface": "grass",
          "position": {"lat": 45.8951, "lon": 6.5089, "elevationM": 1180}},
@@ -107,9 +108,9 @@ SYNTH_HERON = {
 
 @pytest.fixture()
 def commons_repo(tmp_path):
-    """A tmp commons with one published synthetic site + built artifacts.
+    """A tmp commons with one published synthetic object + built artifacts.
 
-    Skipping here rather than at each test site means everything downstream --
+    Skipping here rather than at each test means everything downstream --
     commons_app, contributor, and every test built on them -- skips with it.
     """
     if not HAVE_COMMONS:
@@ -119,7 +120,7 @@ def commons_repo(tmp_path):
     from openexits_validator.normalize import write_json
 
     repo = tmp_path / "commons"
-    write_json(repo / "sites" / "fr" / "pointe-du-heron.json", SYNTH_HERON)
+    write_json(repo / "objects" / "fr" / "pointe-du-heron.json", SYNTH_HERON)
     build(repo, repo / "build")
     return repo
 
@@ -148,10 +149,10 @@ def contributor(commons_app):
 
 
 def wizard_payload(*, lat=45.7123, lon=6.3123, name="Falaise Nouvelle",
-                   with_landing=False, kind="new_site", **extra):
+                   with_landing=False, kind="new_object", **extra):
     features = [{
         "role": "exit", "lat": lat, "lon": lon, "elevationM": 1500,
-        "positionSource": "gps", "precisionM": 10, "objectType": "earth",
+        "positionSource": "gps", "precisionM": 10,
         "suitability": {"sliderOff": True, "tracksuit": True},
         "exitDirectionDeg": 180,
         "measurements": {"rockdrop": {"valueM": 150, "method": "estimate",
@@ -162,9 +163,9 @@ def wizard_payload(*, lat=45.7123, lon=6.3123, name="Falaise Nouvelle",
                          "elevationM": 900, "positionSource": "map", "surface": "grass"})
     payload = {
         "kind": kind,
-        "site": {"name": name, "country": "FR", "status": "open", "access": "tolerated"},
+        "object": {"name": name, "country": "FR", "objectType": "earth", "status": "open", "access": "tolerated"},
         "features": features,
-        "notes": {"language": "fr", "observations": "Site fictif de test."},
+        "notes": {"language": "fr", "observations": "Objet fictif de test."},
     }
     payload.update(extra)
     return payload

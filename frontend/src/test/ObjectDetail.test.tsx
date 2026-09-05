@@ -2,11 +2,11 @@ import { render, screen } from "@testing-library/react";
 import { act } from "react";
 
 import i18n from "../i18n";
-import SiteDetail from "../components/SiteDetail";
-import type { SiteDocument } from "../lib/api";
+import ObjectDetail from "../components/ObjectDetail";
+import type { ObjectDocument } from "../lib/api";
 
-// SYNTHETIC site — invented name, invented coordinates.
-const SITE: SiteDocument = {
+// SYNTHETIC object — invented name, invented coordinates.
+const OBJ: ObjectDocument = {
   schemaVersion: "2.0",
   id: "01J9X0AAAAAAAAAAAAAAAAAAAA",
   name: "Pointe du Héron",
@@ -16,6 +16,7 @@ const SITE: SiteDocument = {
   status: "open",
   access: "tolerated",
   sensitivity: "public",
+  objectType: "earth",
   provenance: [{ source: "panel", contributor: "heron_n", contributedAt: "2026-04-02" }],
   updatedAt: "2026-08-27T09:00:00Z",
   features: [
@@ -23,7 +24,6 @@ const SITE: SiteDocument = {
       role: "exit",
       name: "High exit",
       position: { lat: 45.9012, lon: 6.5123, elevationM: 2140, pinConfirmed: true },
-      objectType: "earth",
       suitability: { slick: false, sliderOff: true, sliderUp: true, wingsuit: true, tracksuit: true, staticLine: false },
       exitDirectionDeg: 210,
       approachTimeMin: 90,
@@ -41,12 +41,12 @@ const SITE: SiteDocument = {
   ],
 };
 
-describe("SiteDetail", () => {
-  it("renders the site in English with measurements, dates and the safety notice", async () => {
+describe("ObjectDetail", () => {
+  it("renders the object in English with measurements, dates and the safety notice", async () => {
     await act(async () => {
       await i18n.changeLanguage("en");
     });
-    render(<SiteDetail site={SITE} />);
+    render(<ObjectDetail doc={OBJ} />);
     expect(screen.getByText("Pointe du Héron")).toBeInTheDocument();
     expect(screen.getByText("OPEN")).toBeInTheDocument();
     expect(screen.getByText("ACCESS: TOLERATED")).toBeInTheDocument();
@@ -63,7 +63,7 @@ describe("SiteDetail", () => {
     await act(async () => {
       await i18n.changeLanguage("fr");
     });
-    render(<SiteDetail site={SITE} />);
+    render(<ObjectDetail doc={OBJ} />);
     expect(screen.getByText("OUVERT")).toBeInTheDocument();
     expect(screen.getByText("ACCÈS : TOLÉRÉ")).toBeInTheDocument();
     expect(screen.getByText("Hauteur sol (landing)")).toBeInTheDocument();
@@ -74,7 +74,7 @@ describe("SiteDetail", () => {
     await act(async () => {
       await i18n.changeLanguage("en");
     });
-    render(<SiteDetail site={SITE} />);
+    render(<ObjectDetail doc={OBJ} />);
     expect(screen.getByText("slick").className).toContain("line-through");
     expect(screen.getByText("wingsuit").className).not.toContain("line-through");
   });

@@ -1,8 +1,8 @@
 {
   "notice": {
-    "title": "Avant d'ajouter un site",
-    "body": "Ne soumettez pas d'exits à l'accès restreint ou sensibles vis-à-vis d'un propriétaire. Une soumission est permanente, même refusée — le commun public ne contient que des sites ouvertement connus. Dans le doute, demandez d'abord à un local.",
-    "agree": "Compris — ce site est ouvertement connu",
+    "title": "Avant d'ajouter un objet",
+    "body": "Ne soumettez pas d'exits à l'accès restreint ou sensibles vis-à-vis d'un propriétaire. Une soumission est permanente, même refusée — le commun public ne contient que des objets ouvertement connus. Dans le doute, demandez d'abord à un local.",
+    "agree": "Compris — cet objet est ouvertement connu",
     "moderated": "Tout ce que vous soumettez est relu par un modérateur humain avant publication."
   },
   "pin": {
@@ -14,19 +14,19 @@
     "continue": "Continuer"
   },
   "nearby": {
-    "title": "Un site existe à proximité",
-    "body": "Votre exit fait-il partie de ce site ? L'y rattacher garde tous les exits d'une même paroi sur une seule fiche.",
-    "attach": "Ajouter mon exit à ce site",
-    "different": "Non — c'est un site différent",
-    "tooClose": "Un nouveau site à moins de {{m}} m d'un site existant ne peut pas être publié.",
+    "title": "Un objet existe à proximité",
+    "body": "Votre exit fait-il partie de cet objet ? L'y rattacher garde tous les exits d'une même paroi sur une seule fiche.",
+    "attach": "Ajouter mon exit à cet objet",
+    "different": "Non — c'est un objet différent",
+    "tooClose": "Un nouvel objet à moins de {{m}} m d'un objet existant ne peut pas être publié.",
     "away": "à {{m}} m",
     "features": "{{count}} élément(s)",
     "pendingTag": "en attente de relecture"
   },
   "details": {
-    "title": "Détails du site et de l'exit",
-    "siteName": "Nom du site",
-    "siteNameHint": "L'objet — la falaise, le pont — pas un exit isolé",
+    "title": "Détails de l'objet et de l'exit",
+    "objectName": "Nom de l'objet",
+    "objectNameHint": "La falaise, le pont, l'antenne, le bâtiment — pas un exit isolé",
     "country": "Pays (code à deux lettres)",
     "objectType": "Quel type d'objet ?",
     "objects": { "building": "Bâtiment", "antenna": "Antenne", "span": "Pont", "earth": "Falaise" },

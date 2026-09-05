@@ -8,7 +8,7 @@ import {
   type MapMouseEvent,
 } from "maplibre-gl";
 import "maplibre-gl/dist/maplibre-gl.css";
-import { SITES_GEOJSON_URL } from "../../lib/api";
+import { OBJECTS_GEOJSON_URL } from "../../lib/api";
 
 // ADR-5: MapLibre GL + OpenFreeMap (no API key; style URL verified live).
 // OpenFreeMap/OSM credits are injected automatically by MapLibre from the
@@ -17,19 +17,19 @@ const STYLE_URL = "https://tiles.openfreemap.org/styles/liberty";
 const DATA_ATTRIBUTION = "© OpenExits contributors (ODbL)";
 
 export interface MapViewProps {
-  onSiteClick?: (sitePath: string) => void;
+  onObjectClick?: (objectPath: string) => void;
   /** pick mode: clicking the map drops/moves a pin and reports it */
   onPick?: (lat: number, lon: number) => void;
   marker?: { lat: number; lon: number } | null;
   center?: { lat: number; lon: number; zoom?: number };
 }
 
-export default function MapView({ onSiteClick, onPick, marker, center }: MapViewProps) {
+export default function MapView({ onObjectClick, onPick, marker, center }: MapViewProps) {
   const containerRef = useRef<HTMLDivElement>(null);
   const mapRef = useRef<MlMap | null>(null);
   const markerRef = useRef<Marker | null>(null);
-  const clickRef = useRef(onSiteClick);
-  clickRef.current = onSiteClick;
+  const clickRef = useRef(onObjectClick);
+  clickRef.current = onObjectClick;
   const pickRef = useRef(onPick);
   pickRef.current = onPick;
 
@@ -52,11 +52,11 @@ export default function MapView({ onSiteClick, onPick, marker, center }: MapView
     map.addControl(new NavigationControl({ showCompass: false }), "top-right");
 
     map.on("load", () => {
-      map.addSource("sites", { type: "geojson", data: SITES_GEOJSON_URL });
+      map.addSource("objects", { type: "geojson", data: OBJECTS_GEOJSON_URL });
       map.addLayer({
-        id: "sites-circles",
+        id: "objects-circles",
         type: "circle",
-        source: "sites",
+        source: "objects",
         paint: {
           "circle-radius": 9,
           "circle-color": "#e84e10",
@@ -65,9 +65,9 @@ export default function MapView({ onSiteClick, onPick, marker, center }: MapView
         },
       });
       map.addLayer({
-        id: "sites-labels",
+        id: "objects-labels",
         type: "symbol",
-        source: "sites",
+        source: "objects",
         layout: {
           "text-field": ["get", "name"],
           "text-size": 12,
@@ -80,19 +80,19 @@ export default function MapView({ onSiteClick, onPick, marker, center }: MapView
           "text-halo-width": 1.5,
         },
       });
-      map.on("click", "sites-circles", (e: MapLayerMouseEvent) => {
+      map.on("click", "objects-circles", (e: MapLayerMouseEvent) => {
         const path = e.features?.[0]?.properties?.path as string | undefined;
         if (path) clickRef.current?.(path);
       });
-      map.on("mouseenter", "sites-circles", () => {
+      map.on("mouseenter", "objects-circles", () => {
         map.getCanvas().style.cursor = "pointer";
       });
-      map.on("mouseleave", "sites-circles", () => {
+      map.on("mouseleave", "objects-circles", () => {
         map.getCanvas().style.cursor = "";
       });
       if (onPick) return; // pick mode keeps the user's framing
       // frame the data once it arrives
-      fetch(SITES_GEOJSON_URL)
+      fetch(OBJECTS_GEOJSON_URL)
         .then((r) => (r.ok ? r.json() : null))
         .then((geojson) => {
           if (!geojson?.features?.length) return;

@@ -6,10 +6,10 @@ interface SubmissionSummary {
   public_id: string;
   kind: string;
   status: string;
-  site_name: string | null;
-  target_site_id: string | null;
+  object_name: string | null;
+  target_object_id: string | null;
   created_at: string;
-  published_site_id: string | null;
+  published_object_id: string | null;
 }
 
 interface Message {
@@ -86,7 +86,7 @@ export default function Submissions() {
           >
             <span className="flex flex-col gap-0.5">
               <span className="text-[15px] font-bold">
-                {sub.site_name ?? sub.target_site_id ?? sub.public_id}
+                {sub.object_name ?? sub.target_object_id ?? sub.public_id}
               </span>
               <span className="text-xs text-faint">
                 {sub.kind} · {sub.created_at.slice(0, 10)}

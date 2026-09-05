@@ -21,7 +21,7 @@ def utcnow() -> str:
 
 ROLES = ("user", "moderator", "admin")
 
-SUBMISSION_KINDS = ("new_site", "new_feature", "correction")
+SUBMISSION_KINDS = ("new_object", "new_feature", "correction")
 SUBMISSION_STATUSES = (
     "pending", "changes_requested", "approved", "publishing",
     "publish_failed", "published", "rejected", "withdrawn",
@@ -57,8 +57,8 @@ class Submission(Base):
     id: Mapped[int] = mapped_column(Integer, primary_key=True)
     public_id: Mapped[str] = mapped_column(Text, unique=True)   # ULID; URLs + publisher branch names
     user_id: Mapped[int] = mapped_column(ForeignKey("users.id"))
-    kind: Mapped[str] = mapped_column(Text)                     # new_site | new_feature | correction
-    target_site_id: Mapped[str | None] = mapped_column(Text)    # "<country>/<slug>" for feature/correction
+    kind: Mapped[str] = mapped_column(Text)                     # new_object | new_feature | correction
+    target_object_id: Mapped[str | None] = mapped_column(Text)  # "<country>/<slug>" for feature/correction
     payload_json: Mapped[str] = mapped_column(Text)             # contributor's words; never mutated after submit
     moderator_payload_json: Mapped[str | None] = mapped_column(Text)
     normalized_json: Mapped[str | None] = mapped_column(Text)
@@ -68,7 +68,7 @@ class Submission(Base):
     decided_by: Mapped[int | None] = mapped_column(ForeignKey("users.id"))
     decided_at: Mapped[str | None] = mapped_column(Text)
     published_commit_sha: Mapped[str | None] = mapped_column(Text)
-    published_site_id: Mapped[str | None] = mapped_column(Text)
+    published_object_id: Mapped[str | None] = mapped_column(Text)
     published_at: Mapped[str | None] = mapped_column(Text)
     created_at: Mapped[str] = mapped_column(Text, default=utcnow)
     updated_at: Mapped[str] = mapped_column(Text, default=utcnow, onupdate=utcnow)
@@ -121,38 +121,38 @@ class MediaUpload(Base):
 
 # --- ADR-7 community layer (panel-only; never enters the commons) -----------
 
-class SiteComment(Base):
-    __tablename__ = "site_comments"
+class ObjectComment(Base):
+    __tablename__ = "object_comments"
     id: Mapped[int] = mapped_column(Integer, primary_key=True)
-    site_id: Mapped[str] = mapped_column(Text)                  # OpenExits site id (ULID)
+    object_id: Mapped[str] = mapped_column(Text)                # OpenExits object id (ULID)
     user_id: Mapped[int] = mapped_column(ForeignKey("users.id"))
     body: Mapped[str] = mapped_column(Text)
     created_at: Mapped[str] = mapped_column(Text, default=utcnow)
     deleted_at: Mapped[str | None] = mapped_column(Text)        # soft delete
     deleted_by: Mapped[int | None] = mapped_column(ForeignKey("users.id"))
-    __table_args__ = (Index("ix_site_comments_site_created", "site_id", "created_at"),)
+    __table_args__ = (Index("ix_object_comments_object_created", "object_id", "created_at"),)
 
 
-class SiteConfirmation(Base):
-    """'Checked out for me' — one live row per (site, user); re-confirm updates."""
-    __tablename__ = "site_confirmations"
+class ObjectConfirmation(Base):
+    """'Checked out for me' — one live row per (object, user); re-confirm updates."""
+    __tablename__ = "object_confirmations"
     id: Mapped[int] = mapped_column(Integer, primary_key=True)
-    site_id: Mapped[str] = mapped_column(Text)
+    object_id: Mapped[str] = mapped_column(Text)
     user_id: Mapped[int] = mapped_column(ForeignKey("users.id"))
     confirmed_on: Mapped[str] = mapped_column(Text)             # date (YYYY-MM-DD)
     created_at: Mapped[str] = mapped_column(Text, default=utcnow)
     updated_at: Mapped[str] = mapped_column(Text, default=utcnow, onupdate=utcnow)
     __table_args__ = (
-        UniqueConstraint("site_id", "user_id", name="uq_confirmation_site_user"),
-        Index("ix_confirmations_site_date", "site_id", "confirmed_on"),
+        UniqueConstraint("object_id", "user_id", name="uq_confirmation_object_user"),
+        Index("ix_confirmations_object_date", "object_id", "confirmed_on"),
     )
 
 
-class SiteReport(Base):
+class ObjectReport(Base):
     """'Report a problem' — a moderation ticket, category required."""
-    __tablename__ = "site_reports"
+    __tablename__ = "object_reports"
     id: Mapped[int] = mapped_column(Integer, primary_key=True)
-    site_id: Mapped[str] = mapped_column(Text)
+    object_id: Mapped[str] = mapped_column(Text)
     user_id: Mapped[int] = mapped_column(ForeignKey("users.id"))
     category: Mapped[str] = mapped_column(Text)                 # REPORT_CATEGORIES
     body: Mapped[str | None] = mapped_column(Text)
@@ -162,6 +162,6 @@ class SiteReport(Base):
     resolution_note: Mapped[str | None] = mapped_column(Text)
     created_at: Mapped[str] = mapped_column(Text, default=utcnow)
     __table_args__ = (
-        Index("ix_site_reports_status_created", "status", "created_at"),
-        Index("ix_site_reports_site", "site_id"),
+        Index("ix_object_reports_status_created", "status", "created_at"),
+        Index("ix_object_reports_object", "object_id"),
     )

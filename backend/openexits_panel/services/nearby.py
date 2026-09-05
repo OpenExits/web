@@ -1,6 +1,6 @@
-"""Nearby-site index (FOUNDATION_PLAN §6.4).
+"""Nearby-object index (FOUNDATION_PLAN §6.4).
 
-Published sites come from the commons build artifact (streamed line-by-line —
+Published objects come from the commons build artifact (streamed line-by-line —
 the one-feature-per-line format makes that trivial), cached with an mtime
 check and explicitly invalidated after a publish. In-flight submissions are
 unioned in so two contributors racing on the same cliff see each other.
@@ -20,13 +20,13 @@ from openexits_validator.normalize import haversine_m
 
 from ..models import Submission
 
-PROMPT_RADIUS_M = 200   # UX radius: "is your exit part of this site?"
+PROMPT_RADIUS_M = 200   # UX radius: "is your exit part of this object?"
 GATE_RADIUS_M = 50      # the hard commons gate (OE-R11)
 
 
 @dataclass(frozen=True)
-class NearbySite:
-    site_id: str
+class NearbyObject:
+    object_id: str
     path: str | None       # None for in-flight submissions
     name: str
     lat: float
@@ -35,15 +35,15 @@ class NearbySite:
     pending: bool = False
 
 
-_cache: dict = {"mtime": None, "path": None, "sites": []}
+_cache: dict = {"mtime": None, "path": None, "objects": []}
 
 
 def invalidate() -> None:
     _cache["mtime"] = None
 
 
-def _published_sites(commons_repo: Path) -> list[NearbySite]:
-    """One entry per site, positioned at its FIRST EXIT (not the centroid):
+def _published_objects(commons_repo: Path) -> list[NearbyObject]:
+    """One entry per object, positioned at its FIRST EXIT (not the centroid):
     duplicate detection keys on where you jump from — the same choice the
     commons gate makes (gate_lib.primary_position). Reads features.geojson,
     whose one-feature-per-line format allows streaming."""
@@ -52,8 +52,8 @@ def _published_sites(commons_repo: Path) -> list[NearbySite]:
         return []
     mtime = geojson.stat().st_mtime_ns
     if _cache["mtime"] == mtime and _cache["path"] == str(geojson):
-        return _cache["sites"]
-    by_site: dict[str, dict] = {}
+        return _cache["objects"]
+    by_object: dict[str, dict] = {}
     with open(geojson, encoding="utf-8") as f:
         for line in f:
             line = line.strip().rstrip(",")
@@ -64,11 +64,11 @@ def _published_sites(commons_repo: Path) -> list[NearbySite]:
             except json.JSONDecodeError:
                 continue
             props = feat.get("properties", {})
-            sid = props.get("siteId")
-            if not sid:
+            oid = props.get("objectId")
+            if not oid:
                 continue
-            entry = by_site.setdefault(sid, {
-                "path": props.get("sitePath"), "name": props.get("siteName", "?"),
+            entry = by_object.setdefault(oid, {
+                "path": props.get("objectPath"), "name": props.get("objectName", "?"),
                 "count": 0, "pos": None,
             })
             entry["count"] += 1
@@ -76,19 +76,19 @@ def _published_sites(commons_repo: Path) -> list[NearbySite]:
             if entry["pos"] is None or (props.get("role") == "exit" and not entry.get("pos_is_exit")):
                 entry["pos"] = (lat, lon)
                 entry["pos_is_exit"] = props.get("role") == "exit"
-    sites = [
-        NearbySite(site_id=sid, path=e["path"], name=e["name"],
-                   lat=e["pos"][0], lon=e["pos"][1], feature_count=e["count"])
-        for sid, e in by_site.items() if e["pos"] is not None
+    objects = [
+        NearbyObject(object_id=oid, path=e["path"], name=e["name"],
+                     lat=e["pos"][0], lon=e["pos"][1], feature_count=e["count"])
+        for oid, e in by_object.items() if e["pos"] is not None
     ]
-    _cache.update(mtime=mtime, path=str(geojson), sites=sites)
-    return sites
+    _cache.update(mtime=mtime, path=str(geojson), objects=objects)
+    return objects
 
 
-def _inflight_sites(db) -> list[NearbySite]:
+def _inflight_objects(db) -> list[NearbyObject]:
     rows = db.execute(
         select(Submission).where(Submission.status.in_(("pending", "approved", "publishing")),
-                                 Submission.kind == "new_site")
+                                 Submission.kind == "new_object")
     ).scalars().all()
     out = []
     for sub in rows:
@@ -96,8 +96,8 @@ def _inflight_sites(db) -> list[NearbySite]:
             doc = json.loads(sub.normalized_json or "")
             exit_feat = next(f for f in doc["features"] if f.get("role") == "exit")
             pos = exit_feat["position"]
-            out.append(NearbySite(
-                site_id=doc.get("id", sub.public_id), path=None,
+            out.append(NearbyObject(
+                object_id=doc.get("id", sub.public_id), path=None,
                 name=doc.get("name", "?"), lat=pos["lat"], lon=pos["lon"],
                 feature_count=len(doc.get("features", [])), pending=True,
             ))
@@ -106,10 +106,10 @@ def _inflight_sites(db) -> list[NearbySite]:
     return out
 
 
-def sites_near(commons_repo: Path, db, lat: float, lon: float,
-               radius_m: float = PROMPT_RADIUS_M) -> list[dict]:
-    """Published + in-flight sites within radius, sorted by distance."""
-    candidates = _published_sites(commons_repo) + _inflight_sites(db)
+def objects_near(commons_repo: Path, db, lat: float, lon: float,
+                 radius_m: float = PROMPT_RADIUS_M) -> list[dict]:
+    """Published + in-flight objects within radius, sorted by distance."""
+    candidates = _published_objects(commons_repo) + _inflight_objects(db)
     # bbox prefilter: 1 deg lat ~= 111 km
     dlat = radius_m / 111_000
     dlon = radius_m / (111_000 * max(0.2, math.cos(math.radians(lat))))
@@ -120,7 +120,7 @@ def sites_near(commons_repo: Path, db, lat: float, lon: float,
         d = haversine_m(lat, lon, s.lat, s.lon)
         if d <= radius_m:
             hits.append({
-                "site_id": s.site_id, "path": s.path, "name": s.name,
+                "object_id": s.object_id, "path": s.path, "name": s.name,
                 "distance_m": round(d), "feature_count": s.feature_count,
                 "pending": s.pending, "lat": s.lat, "lon": s.lon,
             })
@@ -128,5 +128,5 @@ def sites_near(commons_repo: Path, db, lat: float, lon: float,
     return hits
 
 
-def site_exists(commons_repo: Path, site_id: str) -> bool:
-    return any(s.site_id == site_id for s in _published_sites(commons_repo))
+def object_exists(commons_repo: Path, object_id: str) -> bool:
+    return any(s.object_id == object_id for s in _published_objects(commons_repo))

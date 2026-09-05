@@ -20,12 +20,12 @@ def test_dry_run_validate(contributor):
 
 def test_nearby_endpoint(contributor):
     client, headers = contributor
-    r = client.get("/api/v1/sites/nearby?lat=45.9013&lon=6.5124", headers=headers)
+    r = client.get("/api/v1/objects/nearby?lat=45.9013&lon=6.5124", headers=headers)
     hits = r.get_json()["hits"]
     assert len(hits) == 1
     assert hits[0]["name"] == "Pointe du Héron"
     assert hits[0]["distance_m"] < 30
-    far = client.get("/api/v1/sites/nearby?lat=45.5&lon=6.0", headers=headers)
+    far = client.get("/api/v1/objects/nearby?lat=45.5&lon=6.0", headers=headers)
     assert far.get_json()["hits"] == []
 
 
@@ -46,7 +46,7 @@ def test_submission_reaches_pending_with_flags(contributor):
     assert len(listing) == 2
 
 
-def test_new_site_within_gate_radius_rejected(contributor):
+def test_new_object_within_gate_radius_rejected(contributor):
     client, headers = contributor
     r = client.post("/api/v1/submissions", headers=headers,
                     json=wizard_payload(lat=45.90125, lon=6.51232, name="Doublon"))
@@ -58,7 +58,7 @@ def test_new_site_within_gate_radius_rejected(contributor):
 
 def test_nearby_prompt_records_override_flag(contributor):
     client, headers = contributor
-    # ~150 m away: allowed as a new site, but flagged for moderation
+    # ~150 m away: allowed as a new object, but flagged for moderation
     r = client.post("/api/v1/submissions", headers=headers,
                     json=wizard_payload(lat=45.90255, lon=6.5123, name="Voisin Assumé",
                                         duplicateOverride=True))
@@ -82,7 +82,7 @@ def test_racing_contributors_see_each_other(commons_app, contributor):
     client, headers = contributor
     client.post("/api/v1/submissions", headers=headers,
                 json=wizard_payload(lat=45.7123, lon=6.3123, name="Premier Arrivé"))
-    r = client.get("/api/v1/sites/nearby?lat=45.71235&lon=6.31235", headers=headers)
+    r = client.get("/api/v1/objects/nearby?lat=45.71235&lon=6.31235", headers=headers)
     hits = r.get_json()["hits"]
     assert any(h["pending"] and h["name"] == "Premier Arrivé" for h in hits)
 
@@ -90,8 +90,8 @@ def test_racing_contributors_see_each_other(commons_app, contributor):
 def test_correction_flow(contributor):
     client, headers = contributor
     payload = wizard_payload(kind="correction")
-    payload["targetSitePath"] = "fr/pointe-du-heron"
-    payload["site"] = {"access": "legal"}
+    payload["targetObjectPath"] = "fr/pointe-du-heron"
+    payload["object"] = {"access": "legal"}
     payload["features"] = []
     r = client.post("/api/v1/submissions", headers=headers, json=payload)
     assert r.status_code == 201

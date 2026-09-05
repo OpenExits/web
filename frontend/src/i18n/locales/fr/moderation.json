@@ -28,7 +28,7 @@
     "reject": "Refuser",
     "messagePrompt": "Message au contributeur",
     "reasonPrompt": "Motif (envoyé au contributeur)",
-    "publishOk": "Publié : {{site}} ({{sha}})",
+    "publishOk": "Publié : {{object}} ({{sha}})",
     "publishFailed": "Publication refusée par les gardes — rapport ci-dessous. Corrigez puis réessayez.",
     "retry": "Réessayer la publication",
     "reply": "Répondre au contributeur…",
@@ -41,5 +41,5 @@
     "by": "signalé par {{handle}}"
   },
   "forbidden": "Accès modérateur requis.",
-  "scope": "Contrôle de conformité, pas de vérification : confirmez que la fiche respecte le standard, qu'elle est cohérente, de bonne foi, et qu'il ne s'agit pas d'un site sensible. Vous ne confirmez pas qu'il est sûr, que les mesures sont justes, ni que quiconque devrait y sauter. Personne ne vérifie ces fiches face à la réalité — c'est le rôle du sauteur."
+  "scope": "Contrôle de conformité, pas de vérification : confirmez que la fiche respecte le standard, qu'elle est cohérente, de bonne foi, et qu'il ne s'agit pas d'un objet sensible. Vous ne confirmez pas qu'il est sûr, que les mesures sont justes, ni que quiconque devrait y sauter. Personne ne vérifie ces fiches face à la réalité — c'est le rôle du sauteur."
 }

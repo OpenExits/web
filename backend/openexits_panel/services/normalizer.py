@@ -1,16 +1,16 @@
-"""Wizard payload -> standard OpenExits site JSON. THE one place this
+"""Wizard payload -> standard OpenExits object JSON. THE one place this
 translation exists — the wizard preview, instant validation, moderator
 edit-then-approve and the publisher all call normalize().
 
 Wizard payload contract (FE <-> BE):
 {
-  "kind": "new_site" | "new_feature" | "correction",
-  "targetSitePath": "fr/pointe-du-heron" | null,   # required unless new_site
-  "site": { "name", "country", "status", "access", "seasonalClosure"?,
-            "region"?, "city"? },
+  "kind": "new_object" | "new_feature" | "correction",
+  "targetObjectPath": "fr/pointe-du-heron" | null, # required unless new_object
+  "object": { "name", "country", "objectType"?, "status", "access",
+              "seasonalClosure"?, "region"?, "city"? },
   "features": [ { "role", "name"?, "lat", "lon", "elevationM"?,
                   "positionSource": "gps"|"map", "precisionM"?,
-                  "objectType"?, "suitability"?, "exitDirectionDeg"?,
+                  "suitability"?, "exitDirectionDeg"?,
                   "approachTimeMin"?, "surface"?, "measurements"? } ],
   "notes": { "language": "en"|"fr", "<guideSection>": "text", ... }?,
   "duplicateOverride": bool?
@@ -72,7 +72,7 @@ def _feature(f: dict) -> dict:
     out: dict = {"role": f.get("role", "exit"), "position": position}
     if f.get("name"):
         out["name"] = f["name"]
-    for key in ("objectType", "suitability", "exitDirectionDeg", "approachTimeMin", "surface"):
+    for key in ("suitability", "exitDirectionDeg", "approachTimeMin", "surface"):
         if f.get(key) is not None:
             out[key] = f[key]
     m_in = f.get("measurements") or {}
@@ -108,42 +108,42 @@ def _provisional_provenance(contributor_handle: str, source_id: str | None) -> l
 
 def normalize(payload: dict, *, contributor_handle: str, commons_repo,
               submission_public_id: str | None = None) -> dict:
-    """Return a standard site document for this wizard payload."""
+    """Return a standard object document for this wizard payload."""
     kind = payload.get("kind")
     features_in = payload.get("features") or []
-    if kind == "new_site":
-        site = payload.get("site") or {}
-        if not site.get("name") or not site.get("country"):
-            raise NormalizeError("wizard.site_identity_missing")
+    if kind == "new_object":
+        obj = payload.get("object") or {}
+        if not obj.get("name") or not obj.get("country"):
+            raise NormalizeError("wizard.object_identity_missing")
         if not features_in:
             raise NormalizeError("wizard.no_features")
         doc: dict = {
             "schemaVersion": "2.0",
             "id": str(ULID()),
-            "name": site["name"],
-            "country": site["country"],
-            "status": site.get("status", "unknown"),
-            "access": site.get("access", "unknown"),
+            "name": obj["name"],
+            "country": obj["country"],
+            "status": obj.get("status", "unknown"),
+            "access": obj.get("access", "unknown"),
             "sensitivity": "public",
             "provenance": _provisional_provenance(contributor_handle, submission_public_id),
             "updatedAt": _now(),
             "features": [_feature(f) for f in features_in],
         }
-        for opt in ("region", "city"):
-            if site.get(opt):
-                doc[opt] = site[opt]
-        if site.get("seasonalClosure"):
-            doc["seasonalClosure"] = site["seasonalClosure"]
+        for opt in ("objectType", "region", "city"):
+            if obj.get(opt):
+                doc[opt] = obj[opt]
+        if obj.get("seasonalClosure"):
+            doc["seasonalClosure"] = obj["seasonalClosure"]
         guide = _guide_from_notes(payload.get("notes"))
         if guide:
             doc["guide"] = guide
         return doc
 
     if kind in ("new_feature", "correction"):
-        target = payload.get("targetSitePath")
+        target = payload.get("targetObjectPath")
         if not target:
             raise NormalizeError("wizard.target_missing")
-        base_path = commons_repo / "sites" / f"{target}.json"
+        base_path = commons_repo / "objects" / f"{target}.json"
         if not base_path.exists():
             raise NormalizeError("wizard.target_not_found")
         doc = read_json(base_path)
@@ -152,13 +152,13 @@ def normalize(payload: dict, *, contributor_handle: str, commons_repo,
             if not features_in:
                 raise NormalizeError("wizard.no_features")
             doc["features"] = doc.get("features", []) + [_feature(f) for f in features_in]
-        else:  # correction: overlay site fields + full feature set + notes
-            site = payload.get("site") or {}
-            for key in ("name", "country", "region", "city", "status", "access"):
-                if site.get(key) is not None:
-                    doc[key] = site[key]
-            if site.get("seasonalClosure") is not None:
-                doc["seasonalClosure"] = site["seasonalClosure"]
+        else:  # correction: overlay object fields + full feature set + notes
+            obj = payload.get("object") or {}
+            for key in ("name", "country", "objectType", "region", "city", "status", "access"):
+                if obj.get(key) is not None:
+                    doc[key] = obj[key]
+            if obj.get("seasonalClosure") is not None:
+                doc["seasonalClosure"] = obj["seasonalClosure"]
             if features_in:
                 doc["features"] = [_feature(f) for f in features_in]
             guide = _guide_from_notes(payload.get("notes"), doc.get("guide"))

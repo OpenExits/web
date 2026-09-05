@@ -20,7 +20,7 @@ def sub(app):
             db.add(terms)
             db.flush()
             s = Submission(public_id="01J9TESTSUBAAAAAAAAAAAAAAA", user_id=user.id,
-                           kind="new_site", payload_json="{}", terms_acceptance_id=terms.id)
+                           kind="new_object", payload_json="{}", terms_acceptance_id=terms.id)
             db.add(s)
             db.commit()
             yield db, s
